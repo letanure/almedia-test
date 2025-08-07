@@ -1,6 +1,6 @@
 import { useSortable } from "@dnd-kit/sortable"
 import { CSS } from "@dnd-kit/utilities"
-import type { Column as ColumnType } from "../schemas"
+import type { Column as ColumnType } from "../../schemas"
 import { Column } from "./Column"
 
 interface SortableColumnProps {

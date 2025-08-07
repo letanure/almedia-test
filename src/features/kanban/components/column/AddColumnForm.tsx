@@ -5,7 +5,7 @@ import { FormBuilder } from "@/components/custom-ui/FormBuilder/FormBuilder"
 import type { FormFieldConfig } from "@/components/custom-ui/FormBuilder/types"
 import { Stack } from "@/components/custom-ui/Stack"
 import { Button } from "@/components/ui/button"
-import { type ColumnFormData, ColumnFormSchema } from "../schemas"
+import { type ColumnFormData, ColumnFormSchema } from "../../schemas"
 
 interface AddColumnFormProps {
   onAdd: (name: string) => void

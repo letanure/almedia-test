@@ -1,6 +1,6 @@
 import { DragOverlay } from "@dnd-kit/core"
 import { useStore } from "@/hooks/useStores"
-import type { Column as ColumnType } from "../schemas"
+import type { Column as ColumnType } from "../../schemas"
 import { Column } from "./Column"
 
 interface DraggedColumnOverlayProps {

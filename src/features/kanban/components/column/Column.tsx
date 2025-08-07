@@ -1,8 +1,8 @@
 import { Stack } from "@/components/custom-ui/Stack"
 import { Card } from "@/components/ui/card"
-import type { Column as ColumnType } from "../schemas"
+import type { Column as ColumnType } from "../../schemas"
+import { TaskList } from "../task/TaskList"
 import { ColumnHeader } from "./ColumnHeader"
-import { TaskList } from "./TaskList"
 
 interface ColumnProps {
   column: ColumnType
@@ -29,7 +29,7 @@ export const Column = ({
           dragHandleProps={dragHandleProps}
           isDragging={isDragging}
         />
-        <TaskList />
+        <TaskList columnId={column.id} />
       </Stack>
     </Card>
   )
