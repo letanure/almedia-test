@@ -20,10 +20,20 @@ export class ColumnStore {
   private initializeDefaultColumns() {
     // Only add default columns if none exist (first time or after clear)
     if (this.columns.length === 0) {
-      this.addColumn("To Do")
-      this.addColumn("In Progress")
-      this.addColumn("Done")
+      // Use consistent IDs for default columns to maintain BoardStore relationships
+      this.createDefaultColumn("todo-default", "To Do")
+      this.createDefaultColumn("in-progress-default", "In Progress")
+      this.createDefaultColumn("done-default", "Done")
     }
+  }
+
+  private createDefaultColumn(id: string, name: string) {
+    const column: Column = {
+      id,
+      name,
+      createdAt: new Date(),
+    }
+    this.columns.push(column)
   }
 
   addColumn(name: string) {
