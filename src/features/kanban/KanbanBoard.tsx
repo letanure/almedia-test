@@ -10,8 +10,8 @@ import { Container } from "@/components/custom-ui/Container"
 import { Stack } from "@/components/custom-ui/Stack"
 import { useStore } from "@/hooks/useStores"
 import { BoardHeader } from "./components/board/BoardHeader"
+import { ColumnOverlay } from "./components/column/ColumnOverlay"
 import { ColumnsList } from "./components/column/ColumnsList"
-import { DraggedColumnOverlay } from "./components/column/DraggedColumnOverlay"
 import { useAddColumn } from "./hooks/useAddColumn"
 import { useColumnDragAndDrop } from "./hooks/useColumnDragAndDrop"
 
@@ -58,7 +58,7 @@ export const KanbanBoard = observer(() => {
             onCancelAdd={handleCancelAdd}
           />
 
-          <DraggedColumnOverlay draggedColumn={draggedColumn} />
+          <ColumnOverlay column={draggedColumn} />
         </DndContext>
       </Stack>
     </Container>

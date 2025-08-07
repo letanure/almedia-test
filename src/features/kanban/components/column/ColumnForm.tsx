@@ -7,12 +7,12 @@ import { Stack } from "@/components/custom-ui/Stack"
 import { Button } from "@/components/ui/button"
 import { type ColumnFormData, ColumnFormSchema } from "../../schemas"
 
-interface AddColumnFormProps {
+interface ColumnFormProps {
   onAdd: (name: string) => void
   onCancel: () => void
 }
 
-export const AddColumnForm = ({ onAdd, onCancel }: AddColumnFormProps) => {
+export const ColumnForm = ({ onAdd, onCancel }: ColumnFormProps) => {
   const { t } = useTranslation()
   const formRef = useRef<HTMLDivElement>(null)
 

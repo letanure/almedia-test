@@ -3,21 +3,19 @@ import { useStore } from "@/hooks/useStores"
 import type { Column as ColumnType } from "../../schemas"
 import { Column } from "./Column"
 
-interface DraggedColumnOverlayProps {
-  draggedColumn: ColumnType | null | undefined
+interface ColumnOverlayProps {
+  column: ColumnType | null | undefined
 }
 
-export const DraggedColumnOverlay = ({
-  draggedColumn,
-}: DraggedColumnOverlayProps) => {
+export const ColumnOverlay = ({ column }: ColumnOverlayProps) => {
   const { columnStore } = useStore()
 
   return (
     <DragOverlay style={{ zIndex: 9999 }}>
-      {draggedColumn ? (
+      {column ? (
         <div className="rotate-3 shadow-xl transform-gpu">
           <Column
-            column={draggedColumn}
+            column={column}
             onUpdateColumn={(id, name) =>
               columnStore.updateColumn(id, { name })
             }

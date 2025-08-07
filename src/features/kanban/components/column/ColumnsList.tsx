@@ -7,7 +7,7 @@ import type { RefObject } from "react"
 import { Animated, AnimatedGroup } from "@/components/custom-ui/Animated"
 import { Flex } from "@/components/custom-ui/Flex"
 import { useStore } from "@/hooks/useStores"
-import { AddColumnForm } from "./AddColumnForm"
+import { ColumnForm } from "./ColumnForm"
 import { SortableColumn } from "./SortableColumn"
 
 interface ColumnsListProps {
@@ -59,7 +59,7 @@ export const ColumnsList = observer(
 
           {isAddingColumn && (
             <Animated effect="fade" duration="fast" className="flex-shrink-0">
-              <AddColumnForm onAdd={onAddColumn} onCancel={onCancelAdd} />
+              <ColumnForm onAdd={onAddColumn} onCancel={onCancelAdd} />
             </Animated>
           )}
         </Flex>
