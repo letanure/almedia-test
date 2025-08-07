@@ -10,7 +10,7 @@ import { KanbanBoard } from "./KanbanBoard"
 
 export const kanbanRoutes: RouteConfig = {
   path: "/kanban",
-  layout: "sidebar",
+  layout: "fullscreen",
   meta: {
     nav: {
       section: "kanban.navigation.section",
