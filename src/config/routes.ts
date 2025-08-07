@@ -5,6 +5,7 @@
 import type { LayoutType } from "@/components/layout"
 import { demoFeature } from "@/features/demo"
 import { homeFeature } from "@/features/home"
+import { kanbanFeature } from "@/features/kanban"
 import { todoFeature } from "@/features/todo"
 import { processRoutes } from "@/lib/routeProcessor"
 import { errorRoutes } from "@/pages/routes"
@@ -37,6 +38,7 @@ const normalizeRoutes = (
 export const routeConfigs: RouteConfig[] = [
   // Feature routes
   ...normalizeRoutes(homeFeature.routes),
+  ...normalizeRoutes(kanbanFeature.routes),
   ...normalizeRoutes(todoFeature.routes),
   ...normalizeRoutes(demoFeature.routes),
 
