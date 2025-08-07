@@ -31,6 +31,8 @@ export const kanbanTranslations = {
     viewDetails: "View Details",
     noTasks: "No tasks yet",
     dragHint: "Drag tasks to move between columns",
+    confirmDeleteMessage:
+      "Are you sure you want to delete this task? This action cannot be undone.",
   },
   comments: {
     title: "Comments",
