@@ -1,0 +1,45 @@
+name: 'Setup Node.js and Dependencies'
+description: 'Setup Node.js, pnpm, and restore dependencies from cache with build cache optimization'
+
+inputs:
+  install-deps:
+    description: 'Whether to install dependencies or just restore cache'
+    required: false
+    default: 'false'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Setup pnpm
+      uses: pnpm/action-setup@v2
+      with:
+        version: 9
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: 22
+        cache: 'pnpm'
+
+    - name: Cache TypeScript build
+      uses: actions/cache@v4
+      continue-on-error: true
+      with:
+        path: |
+          .tsbuildinfo
+          node_modules/.cache
+        key: build-cache-${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml', 'tsconfig*.json', 'vite.config.ts') }}
+        restore-keys: |
+          build-cache-${{ runner.os }}-
+
+    - name: Install dependencies
+      if: inputs.install-deps == 'true'
+      shell: bash
+      run: pnpm install --frozen-lockfile
+
+    - name: Restore node_modules
+      if: inputs.install-deps == 'false'
+      uses: actions/cache/restore@v4
+      with:
+        path: node_modules
+        key: node_modules-${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}

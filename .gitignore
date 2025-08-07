@@ -1,0 +1,55 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+*.local
+
+# Package manager stores
+.pnpm-store/
+.yarn/
+.npm/
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Environment variables
+.env
+.env.local
+.env.production
+
+# Local files (any file with .local. in the name)
+*.local.*
+
+# Project documentation (generated/local)
+CLAUDE.md
+FEATURES_ROADMAP.md
+
+# Playwright
+/test-results/
+/tests/test-results/
+/playwright-report/
+/tests/playwright-report/
+/blob-report/
+/tests/blob-report/
+/playwright/.cache/
+
+# Visual regression snapshots
+/tests/e2e/.snapshots/          # Local snapshots (gitignored)
+/tests/e2e/*-snapshots/         # Old format snapshots (gitignored)
+!/tests/e2e/.snapshots-ci/      # CI snapshots (tracked in git)

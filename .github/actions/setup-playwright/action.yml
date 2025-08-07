@@ -1,0 +1,29 @@
+name: 'Setup Playwright'
+description: 'Install Playwright browsers with caching optimization'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Get Playwright version
+      id: playwright-version
+      shell: bash
+      run: echo "version=$(pnpm exec playwright --version | grep -oP 'Version \K[0-9]+\.[0-9]+\.[0-9]+')" >> $GITHUB_OUTPUT
+    
+    - name: Cache Playwright browsers
+      uses: actions/cache@v4
+      continue-on-error: true
+      id: playwright-cache
+      with:
+        path: ~/.cache/ms-playwright
+        key: playwright-${{ runner.os }}-${{ steps.playwright-version.outputs.version }}
+        restore-keys: playwright-${{ runner.os }}-
+    
+    - name: Install Playwright Browsers (full)
+      if: steps.playwright-cache.outputs.cache-hit != 'true'
+      shell: bash
+      run: pnpm exec playwright install --with-deps
+    
+    - name: Install Playwright dependencies only
+      if: steps.playwright-cache.outputs.cache-hit == 'true'
+      shell: bash
+      run: pnpm exec playwright install-deps

@@ -1,0 +1,80 @@
+name: Update E2E Snapshots
+
+on:
+  workflow_dispatch:
+    inputs:
+      reason:
+        description: 'Reason for updating snapshots'
+        required: false
+        default: 'UI changes detected'
+
+# Temporarily disabled due to build artifact issues
+# TODO: Fix dist directory not being available in CI environment
+
+jobs:
+  update-snapshots:
+    name: Update CI Snapshots  
+    runs-on: ubuntu-latest
+    if: false  # Temporarily disabled - build artifact issue
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      
+      - uses: ./.github/actions/setup
+        with:
+          install-deps: 'true'
+      
+      - name: Build application
+        run: pnpm build
+      
+      - uses: ./.github/actions/setup-playwright
+      
+      - name: Update snapshots
+        run: CI=true pnpm exec playwright test --update-snapshots
+      
+      - name: Check for changes
+        id: verify-changed-files
+        run: |
+          if git diff --quiet tests/e2e/.snapshots-ci/; then
+            echo "changed=false" >> $GITHUB_OUTPUT
+          else
+            echo "changed=true" >> $GITHUB_OUTPUT
+          fi
+      
+      - name: Create Pull Request
+        if: steps.verify-changed-files.outputs.changed == 'true'
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: |
+            test: update E2E snapshots
+            
+            ${{ github.event.inputs.reason }}
+            
+            🤖 Generated with GitHub Actions
+          title: "Update E2E Snapshots"
+          body: |
+            ## 📸 E2E Snapshots Updated
+            
+            **Reason:** ${{ github.event.inputs.reason }}
+            
+            This PR updates the CI snapshots for E2E tests. The snapshots were automatically generated in the same environment used by CI to ensure consistency.
+            
+            ### Changes
+            - Updated visual regression test snapshots in `tests/e2e/.snapshots-ci/`
+            
+            ### How to review
+            1. Check that the snapshot changes look reasonable
+            2. Run `pnpm test:e2e` locally to verify tests pass
+            3. Merge if everything looks good
+            
+            ---
+            *This PR was created automatically by the "Update E2E Snapshots" workflow.*
+          branch: update-snapshots-${{ github.run_number }}
+          delete-branch: true
+      
+      - name: No changes detected
+        if: steps.verify-changed-files.outputs.changed == 'false'
+        run: |
+          echo "ℹ️ No snapshot changes detected. Snapshots are already up to date."
