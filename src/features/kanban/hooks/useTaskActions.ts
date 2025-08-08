@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next"
 import { useModal } from "@/contexts/ModalContext"
 import { useStore } from "@/hooks/useStores"
-import type { TaskFormData } from "../schemas"
+import type { CreateTask, TaskFormData } from "../schemas"
 
 export const useTaskActions = (columnId: string) => {
   const { t } = useTranslation()
@@ -23,7 +23,13 @@ export const useTaskActions = (columnId: string) => {
   }
 
   const addTask = (taskData: TaskFormData) => {
-    const taskId = taskStore.createTask(taskData)
+    const createTaskData: CreateTask = {
+      ...taskData,
+      importance: taskData.importance || "low",
+      urgency: taskData.urgency || "low",
+      comments: [],
+    }
+    const taskId = taskStore.createTask(createTaskData)
     boardStore.addTaskToColumn(taskId, columnId)
     modal.close("add-task")
   }

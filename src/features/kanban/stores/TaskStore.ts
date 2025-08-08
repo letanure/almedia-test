@@ -45,6 +45,8 @@ export class TaskStore {
     if (taskIndex === -1) return
 
     const task = this.tasks[taskIndex]
+    if (!task) return
+
     const updatedTask: Task = {
       ...task,
       title: data.title?.trim() ?? task.title,

@@ -5,7 +5,8 @@ import { Button } from "@/components/ui/button"
 import { type TaskFormData, TaskFormSchema } from "../../schemas"
 
 // Helper function to format Date for HTML date input (YYYY-MM-DD)
-const formatDateForInput = (date: Date): string => {
+const formatDateForInput = (date: Date | undefined): string | undefined => {
+  if (!date) return undefined
   return date.toISOString().split("T")[0]
 }
 
@@ -85,9 +86,7 @@ export const TaskForm = ({
         defaultValues={{
           title: initialData?.title || "",
           description: initialData?.description || "",
-          dueDate: initialData?.dueDate
-            ? formatDateForInput(initialData.dueDate)
-            : undefined,
+          dueDate: formatDateForInput(initialData?.dueDate),
           importance: initialData?.importance || "low",
           urgency: initialData?.urgency || "low",
         }}
