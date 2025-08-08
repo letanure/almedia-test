@@ -27,7 +27,7 @@ export const TaskList = observer(({ columnId }: TaskListProps) => {
   }
 
   const handleAddTask = (data: TaskFormData) => {
-    const newTask = taskStore.createTask(data)
+    const newTask = taskStore.createTask({ ...data, comments: [] })
     boardStore.addTaskToColumn(newTask.id, columnId)
     modal.close("add-task")
   }

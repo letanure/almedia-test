@@ -86,7 +86,7 @@ export const TaskForm = ({
         defaultValues={{
           title: initialData?.title || "",
           description: initialData?.description || "",
-          dueDate: formatDateForInput(initialData?.dueDate) as any,
+          dueDate: formatDateForInput(initialData?.dueDate) || "",
           importance: initialData?.importance || "low",
           urgency: initialData?.urgency || "low",
         }}
