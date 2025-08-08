@@ -1,8 +1,7 @@
-import { useState } from "react"
 import { useTranslation } from "react-i18next"
-import { Button } from "@/components/ui/button"
-import { Textarea } from "@/components/ui/textarea"
-import type { CommentFormData } from "../../schemas"
+import { FormBuilder } from "@/components/custom-ui/FormBuilder/FormBuilder"
+import type { FormFieldConfig } from "@/components/custom-ui/FormBuilder/types"
+import { type CommentFormData, CommentFormSchema } from "../../schemas"
 
 interface CommentFormProps {
   onSubmit: (data: CommentFormData) => void
@@ -16,45 +15,35 @@ export const CommentForm = ({
   placeholder,
 }: CommentFormProps) => {
   const { t } = useTranslation()
-  const [content, setContent] = useState("")
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    if (content.trim()) {
-      onSubmit({ content: content.trim() })
-      setContent("")
-    }
-  }
+  const fields: FormFieldConfig[] = [
+    {
+      type: "textarea",
+      name: "content",
+      placeholder: placeholder || t("kanban.comments.placeholder"),
+      className: "min-h-[80px]",
+      layout: "full",
+    },
+  ]
 
-  const handleCancel = () => {
-    setContent("")
-    onCancel?.()
+  const handleSubmit = async (data: CommentFormData) => {
+    onSubmit(data)
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-3">
-      <Textarea
-        value={content}
-        onChange={(e) => setContent(e.target.value)}
-        placeholder={placeholder || t("kanban.comments.placeholder")}
-        className="min-h-[80px]"
-        required
-      />
-      <div className="flex gap-2">
-        <Button type="submit" size="sm" disabled={!content.trim()}>
-          {t("kanban.comments.addComment")}
-        </Button>
-        {onCancel && (
-          <Button
-            type="button"
-            variant="outline"
-            size="sm"
-            onClick={handleCancel}
-          >
-            {t("common.cancel")}
-          </Button>
-        )}
-      </div>
-    </form>
+    <FormBuilder
+      fields={fields}
+      schema={CommentFormSchema}
+      defaultValues={{ content: "" }}
+      onSubmit={handleSubmit}
+      onCancel={onCancel}
+      submitLabel={t("kanban.comments.addComment")}
+      submitSize="sm"
+      cancelLabel={onCancel ? t("common.cancel") : ""}
+      cancelSize="sm"
+      showCancel={!!onCancel}
+      resetAfterSubmit={true}
+      translateMessage={t}
+    />
   )
 }

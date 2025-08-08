@@ -23,7 +23,11 @@ export const TaskModal = observer(
     const task = taskStore.getTaskById(taskId)
     if (!task) return null
 
-    const { title, description, comments = [] } = task
+    const { title, description } = task
+    const comments = task.comments || []
+
+    // Force MobX to track comments by accessing length
+    const _ = comments.length
 
     const handleEdit = () => {
       setIsEditing(true)

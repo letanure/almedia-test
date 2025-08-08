@@ -76,10 +76,8 @@ export class BoardStore {
   }
 
   // Remove all tasks from a column (when column is deleted)
-  removeAllTasksFromColumn(columnId: string): string[] {
-    const tasks = this.columnTasks[columnId] || []
+  removeAllTasksFromColumn(columnId: string): void {
     delete this.columnTasks[columnId]
-    return tasks
   }
 
   // Delete a task completely

@@ -1,7 +1,7 @@
 import { Trash2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { useTaskModal } from "../../contexts/TaskModalContext"
 import { useTaskActions } from "../../hooks/useTaskActions"
-import { TaskModal } from "./TaskModal"
 
 interface TaskCardProps {
   taskId: string
@@ -16,18 +16,11 @@ export const TaskCard = ({
   title,
   description,
 }: TaskCardProps) => {
-  const { openTaskModal, updateTask, handleDeleteTask, addComment } =
-    useTaskActions(columnId)
+  const { handleDeleteTask } = useTaskActions(columnId)
+  const { openModal } = useTaskModal()
 
   const handleClick = () => {
-    openTaskModal(
-      <TaskModal
-        taskId={taskId}
-        onUpdate={updateTask}
-        onDelete={handleDeleteTask}
-        onAddComment={addComment}
-      />,
-    )
+    openModal(taskId)
   }
 
   const handleDeleteClick = (e: React.MouseEvent) => {

@@ -1,6 +1,5 @@
 import { X } from "lucide-react"
 import { useEffect } from "react"
-import { createPortal } from "react-dom"
 import { useTranslation } from "react-i18next"
 import { Animated, AnimatedGroup } from "@/components/custom-ui/Animated"
 import { Button } from "@/components/ui/button"
@@ -100,7 +99,7 @@ export function Modal({
     </>
   )
 
-  return createPortal(modalContent, document.body)
+  return modalContent
 }
 
 export interface ConfirmModalProps {

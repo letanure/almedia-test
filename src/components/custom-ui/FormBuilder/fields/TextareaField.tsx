@@ -34,6 +34,19 @@ export const TextareaField = memo(
                 rows={field.rows || 3}
                 maxLength={field.maxLength}
                 autoComplete={field.autoComplete}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" && e.shiftKey) {
+                    e.preventDefault()
+                    const form = e.currentTarget.form
+                    if (form) {
+                      const submitEvent = new Event("submit", {
+                        cancelable: true,
+                        bubbles: true,
+                      })
+                      form.dispatchEvent(submitEvent)
+                    }
+                  }
+                }}
               />
             </FormControl>
             {field.description && (
