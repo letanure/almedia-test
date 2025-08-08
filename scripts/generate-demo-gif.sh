@@ -13,7 +13,7 @@ YELLOW='\033[1;33m'
 NC='\033[0m' # No Color
 
 # Configuration
-SNAPSHOTS_DIR="tests/e2e/.snapshots"
+SNAPSHOTS_DIR="test-results"
 OUTPUT_DIR="docs/assets"
 DELAY=150  # Delay between frames in centiseconds (150 = 1.5 seconds)
 LOOP=0     # 0 = infinite loop
@@ -33,10 +33,11 @@ generate_desktop_gif() {
     echo -e "${BLUE}📱 Generating desktop demo GIF...${NC}"
     
     local desktop_files=(
-        "todo-app.spec.ts-Todo-App---E2E-Demo-Tests-Visual-desktop-screenshots-desktop-01-empty-state-chromium-darwin.png"
-        "todo-app.spec.ts-Todo-App---E2E-Demo-Tests-Visual-desktop-screenshots-desktop-02-with-one-item-chromium-darwin.png"
-        "todo-app.spec.ts-Todo-App---E2E-Demo-Tests-Visual-desktop-screenshots-desktop-03-item-completed-chromium-darwin.png"
-        "todo-app.spec.ts-Todo-App---E2E-Demo-Tests-Visual-desktop-screenshots-desktop-04-with-statistics-chromium-darwin.png"
+        "kanban-board-Kanban-Board--c081c--with-default-three-columns-mobile-chrome/01-initial-load-actual.png"
+        "kanban-board-Kanban-Board--6f677--drop-tasks-between-columns-mobile-chrome/06-tasks-in-columns-actual.png"
+        "kanban-board-Kanban-Board--6403c-should-add-comments-to-task-chromium/05-comments-added-actual.png"
+        "kanban-board-Kanban-Board--c7513-uld-test-keyboard-shortcuts-chromium/11-help-modal-actual.png"
+        "kanban-board-Kanban-Board--6f677--drop-tasks-between-columns-mobile-chrome/07-after-drag-drop-actual.png"
     )
     
     # Check if all files exist
@@ -47,18 +48,19 @@ generate_desktop_gif() {
         fi
     done
     
-    # Generate GIF with custom delays (first frame longer, last frame longer)
+    # Generate GIF with custom delays showing kanban workflow
     convert \
         -delay 200 "$SNAPSHOTS_DIR/${desktop_files[0]}" \
         -delay $DELAY "$SNAPSHOTS_DIR/${desktop_files[1]}" \
         -delay $DELAY "$SNAPSHOTS_DIR/${desktop_files[2]}" \
-        -delay 250 "$SNAPSHOTS_DIR/${desktop_files[3]}" \
+        -delay $DELAY "$SNAPSHOTS_DIR/${desktop_files[3]}" \
+        -delay 250 "$SNAPSHOTS_DIR/${desktop_files[4]}" \
         -loop $LOOP \
         -resize 800x600 \
         -colors 256 \
-        "$OUTPUT_DIR/todo-app-demo-desktop.gif"
+        "$OUTPUT_DIR/kanban-demo-desktop.gif"
     
-    echo -e "${GREEN}✅ Desktop GIF generated: $OUTPUT_DIR/todo-app-demo-desktop.gif${NC}"
+    echo -e "${GREEN}✅ Desktop GIF generated: $OUTPUT_DIR/kanban-demo-desktop.gif${NC}"
 }
 
 # Function to generate mobile GIF
@@ -122,4 +124,4 @@ esac
 
 show_file_info
 echo -e "${GREEN}🎉 Demo GIF(s) generated successfully!${NC}"
-echo -e "${BLUE}💡 Add to README with: ![Demo](./docs/assets/todo-app-demo-desktop.gif)${NC}"
+echo -e "${BLUE}💡 Add to README with: ![Kanban Demo](./docs/assets/kanban-demo-desktop.gif)${NC}"

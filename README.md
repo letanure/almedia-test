@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-This is a test project implementing a feature-complete Kanban board with task prioritization. Started, paused, continued with better organization - rebuilt components while keeping store architecture.
+This is a test project implementing a feature-complete Kanban board with task prioritization. Started, paused, continued with better organization - rebuilt components while keeping store architecture. Includes comprehensive e2e tests with visual snapshots.
 
 **Required Features Implemented:**
 - [x] Dynamic columns (add/rename/delete columns, starts with To Do/In Progress/Done)
@@ -25,9 +25,9 @@ A modern Kanban board application built with React + TypeScript. Features drag-a
 
 **[View Live Demo](https://almedia-test.vercel.app/)** - Deployed on Vercel
 
-![Kanban Board Demo](./docs/assets/todo-app-demo-desktop.gif)
+![Kanban Board Demo](./docs/assets/kanban-demo-desktop.gif)
 
-_Interactive demo showing the complete kanban workflow: creating tasks, moving between columns, and project management._
+_Interactive demo showing the complete kanban workflow: initial load, task creation with comments, help modal, and drag-and-drop functionality._
 
 ## Quick Start
 

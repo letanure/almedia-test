@@ -30,7 +30,7 @@ export const TaskView = ({
   const task = taskStore.getTaskById(taskId)
 
   return (
-    <div className="flex flex-col h-full bg-white">
+    <div className="flex flex-col h-full bg-white" data-testid="task-modal">
       {/* Header Section */}
       <div className="px-6 py-4 border-b border-gray-200">
         <div className="flex items-start justify-between">

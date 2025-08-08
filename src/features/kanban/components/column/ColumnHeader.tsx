@@ -28,7 +28,10 @@ export const ColumnHeader = ({ columnId, title }: ColumnHeaderProps) => {
   }
 
   return (
-    <div className="p-3 border-b border-gray-300 flex justify-between items-center group">
+    <div
+      className="p-3 border-b border-gray-300 flex justify-between items-center group"
+      data-testid="column-header"
+    >
       <h3 className="font-medium">{title}</h3>
       <div className="flex gap-1">
         <Button
@@ -36,6 +39,7 @@ export const ColumnHeader = ({ columnId, title }: ColumnHeaderProps) => {
           size="sm"
           onClick={handleAddTask}
           className="h-6 w-6 p-0 opacity-0 group-hover:opacity-40 hover:opacity-100 transition-opacity"
+          data-testid="add-task-button"
         >
           <Plus className="h-3 w-3" />
         </Button>
@@ -44,6 +48,7 @@ export const ColumnHeader = ({ columnId, title }: ColumnHeaderProps) => {
           size="sm"
           onClick={handleEdit}
           className="h-6 w-6 p-0 opacity-0 group-hover:opacity-40 hover:opacity-100 transition-opacity"
+          data-testid="column-menu-button"
         >
           <Edit className="h-3 w-3" />
         </Button>

@@ -29,7 +29,11 @@ export const DroppableColumn = ({
   return (
     <div className={className}>
       <Column columnId={columnId} title={title}>
-        <div ref={setNodeRef} className="min-h-[100px]">
+        <div
+          ref={setNodeRef}
+          className="min-h-[100px]"
+          data-testid="droppable-column"
+        >
           <SortableContext
             items={taskIds}
             strategy={verticalListSortingStrategy}

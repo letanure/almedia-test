@@ -27,16 +27,20 @@ export const ColumnForm = ({ onSubmit, initialData }: ColumnFormProps) => {
   }
 
   return (
-    <FormBuilder
-      fields={fields}
-      schema={ColumnFormSchema}
-      defaultValues={{ name: initialData?.name || "" }}
-      onSubmit={handleSubmit}
-      submitLabel={initialData ? t("common.save") : t("kanban.board.addColumn")}
-      resetLabel=""
-      showReset={false}
-      resetAfterSubmit={true}
-      translateMessage={t}
-    />
+    <div data-testid="column-form">
+      <FormBuilder
+        fields={fields}
+        schema={ColumnFormSchema}
+        defaultValues={{ name: initialData?.name || "" }}
+        onSubmit={handleSubmit}
+        submitLabel={
+          initialData ? t("common.save") : t("kanban.board.addColumn")
+        }
+        resetLabel=""
+        showReset={false}
+        resetAfterSubmit={true}
+        translateMessage={t}
+      />
+    </div>
   )
 }
