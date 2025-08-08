@@ -1,33 +1,30 @@
 import { Edit, Trash2 } from "lucide-react"
 import { useTranslation } from "react-i18next"
 import { Button } from "@/components/ui/button"
-import type { Comment, CommentFormData } from "../../schemas"
+import { useCommentActions } from "../../hooks/useCommentActions"
+import type { Comment } from "../../schemas"
 import { CommentList } from "../comments/CommentList"
 
 interface TaskViewProps {
+  taskId: string
   title: string
   description?: string
   comments: Comment[]
   onEdit: () => void
   onDelete: () => void
-  onAddComment: (data: CommentFormData) => void
-  onEditComment: (commentId: string, data: CommentFormData) => void
-  onDeleteComment: (commentId: string) => void
-  onReplyComment: (parentId: string, data: CommentFormData) => void
 }
 
 export const TaskView = ({
+  taskId,
   title,
   description,
   comments,
   onEdit,
   onDelete,
-  onAddComment,
-  onEditComment,
-  onDeleteComment,
-  onReplyComment,
 }: TaskViewProps) => {
   const { t } = useTranslation()
+  const { addComment, editComment, deleteComment, replyToComment } =
+    useCommentActions(taskId)
 
   return (
     <div className="flex flex-col h-full">
@@ -68,10 +65,10 @@ export const TaskView = ({
         <div className="max-h-[400px] overflow-y-auto">
           <CommentList
             comments={comments}
-            onAddComment={onAddComment}
-            onEditComment={onEditComment}
-            onDeleteComment={onDeleteComment}
-            onReplyComment={onReplyComment}
+            onAddComment={addComment}
+            onEditComment={editComment}
+            onDeleteComment={deleteComment}
+            onReplyComment={replyToComment}
           />
         </div>
       </div>
