@@ -1,108 +1,63 @@
 import { observer } from "mobx-react-lite"
 import { useState } from "react"
 import { useStore } from "@/hooks/useStores"
-import type { CommentFormData } from "../../schemas"
+import { useTaskModalActions } from "../../hooks/useTaskModalActions"
 import { TaskForm } from "./TaskForm"
 import { TaskView } from "./TaskView"
 
 interface TaskModalProps {
   taskId: string
-  onUpdate: (
-    taskId: string,
-    data: { title: string; description?: string },
-  ) => void
-  onDelete: (taskId: string, taskTitle: string) => void
-  onAddComment: (taskId: string, data: CommentFormData) => void
-  onEditComment: (
-    taskId: string,
-    commentId: string,
-    data: CommentFormData,
-  ) => void
-  onDeleteComment: (taskId: string, commentId: string) => void
-  onReplyComment: (
-    taskId: string,
-    parentId: string,
-    data: CommentFormData,
-  ) => void
 }
 
-export const TaskModal = observer(
-  ({
-    taskId,
-    onUpdate,
-    onDelete,
-    onAddComment,
-    onEditComment,
-    onDeleteComment,
-    onReplyComment,
-  }: TaskModalProps) => {
-    const [isEditing, setIsEditing] = useState(false)
-    const { taskStore } = useStore()
+export const TaskModal = observer(({ taskId }: TaskModalProps) => {
+  const [isEditing, setIsEditing] = useState(false)
+  const { taskStore } = useStore()
+  const { handleUpdateTask, handleDeleteTask } = useTaskModalActions(taskId)
 
-    const task = taskStore.getTaskById(taskId)
-    if (!task) return null
+  const task = taskStore.getTaskById(taskId)
+  if (!task) return null
 
-    const { title, description } = task
-    const comments = task.comments || []
+  const { title, description } = task
+  const comments = task.comments || []
 
-    // Force MobX to track comments by accessing length
-    const _ = comments.length
+  // Force MobX to track comments by accessing length
+  const _ = comments.length
 
-    const handleEdit = () => {
-      setIsEditing(true)
-    }
+  const handleEdit = () => {
+    setIsEditing(true)
+  }
 
-    const handleSave = (data: { title: string; description?: string }) => {
-      onUpdate(taskId, data)
-      setIsEditing(false)
-    }
+  const handleSave = (data: { title: string; description?: string }) => {
+    handleUpdateTask(taskId, data)
+    setIsEditing(false)
+  }
 
-    const handleCancel = () => {
-      setIsEditing(false)
-    }
+  const handleCancel = () => {
+    setIsEditing(false)
+  }
 
-    const handleDelete = () => {
-      onDelete(taskId, title)
-    }
+  const handleDelete = () => {
+    handleDeleteTask(taskId, title)
+  }
 
-    const handleAddComment = (data: CommentFormData) => {
-      onAddComment(taskId, data)
-    }
-
-    const handleEditComment = (commentId: string, data: CommentFormData) => {
-      onEditComment(taskId, commentId, data)
-    }
-
-    const handleDeleteComment = (commentId: string) => {
-      onDeleteComment(taskId, commentId)
-    }
-
-    const handleReplyComment = (parentId: string, data: CommentFormData) => {
-      onReplyComment(taskId, parentId, data)
-    }
-
-    if (isEditing) {
-      return (
-        <TaskForm
-          initialData={{ title, description }}
-          onSubmit={handleSave}
-          onCancel={handleCancel}
-        />
-      )
-    }
-
+  if (isEditing) {
     return (
-      <TaskView
-        title={title}
-        description={description}
-        comments={comments}
-        onEdit={handleEdit}
-        onDelete={handleDelete}
-        onAddComment={handleAddComment}
-        onEditComment={handleEditComment}
-        onDeleteComment={handleDeleteComment}
-        onReplyComment={handleReplyComment}
+      <TaskForm
+        initialData={{ title, description }}
+        onSubmit={handleSave}
+        onCancel={handleCancel}
       />
     )
-  },
-)
+  }
+
+  return (
+    <TaskView
+      taskId={taskId}
+      title={title}
+      description={description}
+      comments={comments}
+      onEdit={handleEdit}
+      onDelete={handleDelete}
+    />
+  )
+})
