@@ -9,6 +9,7 @@ interface TaskCardProps {
   columnId: string
   title: string
   description?: string
+  dragListeners?: Record<string, unknown>
 }
 
 export const TaskCard = ({
@@ -16,6 +17,7 @@ export const TaskCard = ({
   columnId,
   title,
   description,
+  dragListeners,
 }: TaskCardProps) => {
   const { handleDeleteTask } = useTaskActions(columnId)
   const { openModal } = useTaskModal()
@@ -52,6 +54,7 @@ export const TaskCard = ({
               : "opacity-0 group-hover/card:opacity-60 hover:opacity-100"
           }`}
           data-drag-handle="true"
+          {...(dragListeners || {})}
         >
           <GripVertical className="h-4 w-4 text-gray-400" />
         </div>
