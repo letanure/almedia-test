@@ -23,9 +23,10 @@ export class TaskStore {
     schema: TaskStoreSchema,
   }
 
-  createTask(data: CreateTask): Task {
+  createTask(data: CreateTask): string {
+    const id = crypto.randomUUID()
     const task: Task = {
-      id: crypto.randomUUID(),
+      id,
       title: data.title.trim(),
       description: data.description?.trim(),
       comments: [],
@@ -33,7 +34,7 @@ export class TaskStore {
     }
 
     this.tasks.push(task)
-    return task
+    return id // Only exception: return ID for board coordination
   }
 
   updateTask(id: string, data: UpdateTask) {
@@ -77,9 +78,9 @@ export class TaskStore {
   }
 
   // Comment methods
-  addComment(taskId: string, data: CommentFormData): Comment | undefined {
+  addComment(taskId: string, data: CommentFormData): void {
     const task = this.getTaskById(taskId)
-    if (!task) return undefined
+    if (!task) return
 
     const comment: Comment = {
       id: crypto.randomUUID(),
@@ -88,29 +89,26 @@ export class TaskStore {
     }
 
     task.comments.push(comment)
-    return comment
   }
 
-  updateComment(taskId: string, commentId: string, content: string): boolean {
+  updateComment(taskId: string, commentId: string, content: string): void {
     const task = this.getTaskById(taskId)
-    if (!task) return false
+    if (!task) return
 
     const comment = task.comments.find((c) => c.id === commentId)
-    if (!comment) return false
+    if (!comment) return
 
     comment.content = content.trim()
     comment.updatedAt = new Date()
-    return true
   }
 
-  deleteComment(taskId: string, commentId: string): boolean {
+  deleteComment(taskId: string, commentId: string): void {
     const task = this.getTaskById(taskId)
-    if (!task) return false
+    if (!task) return
 
     const commentIndex = task.comments.findIndex((c) => c.id === commentId)
-    if (commentIndex === -1) return false
+    if (commentIndex === -1) return
 
     task.comments.splice(commentIndex, 1)
-    return true
   }
 }
