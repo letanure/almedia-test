@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next"
 import { useModal } from "@/contexts/ModalContext"
 import { useStore } from "@/hooks/useStores"
-import type { CommentFormData, TaskFormData } from "../schemas"
+import type { TaskFormData } from "../schemas"
 
 export const useTaskActions = (columnId: string) => {
   const { t } = useTranslation()
@@ -39,16 +39,11 @@ export const useTaskActions = (columnId: string) => {
     }
   }
 
-  const addComment = (taskId: string, data: CommentFormData) => {
-    taskStore.addComment(taskId, data)
-  }
-
   return {
     openAddTaskModal,
     openEditTaskModal,
     addTask,
     handleDeleteTask,
-    addComment,
     columnId,
   }
 }
