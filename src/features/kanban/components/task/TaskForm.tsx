@@ -6,12 +6,14 @@ import { type TaskFormData, TaskFormSchema } from "../../schemas"
 
 interface TaskFormProps {
   onSubmit: (data: TaskFormData) => void
+  onCancel?: () => void
   onDelete?: () => void
   initialData?: TaskFormData
 }
 
 export const TaskForm = ({
   onSubmit,
+  onCancel,
   onDelete,
   initialData,
 }: TaskFormProps) => {
@@ -51,11 +53,18 @@ export const TaskForm = ({
         }}
         onSubmit={handleSubmit}
         submitLabel={initialData ? t("common.save") : t("kanban.task.addTask")}
-        resetLabel=""
-        showReset={false}
-        resetAfterSubmit={true}
+        resetLabel={onCancel ? t("common.cancel") : ""}
+        showReset={!!onCancel}
+        resetAfterSubmit={!initialData}
         translateMessage={t}
       />
+      {onCancel && (
+        <div className="mt-4">
+          <Button variant="outline" onClick={onCancel} className="w-full">
+            {t("common.cancel")}
+          </Button>
+        </div>
+      )}
       {initialData && onDelete && (
         <div className="mt-4 pt-4 border-t">
           <Button variant="destructive" onClick={onDelete} className="w-full">

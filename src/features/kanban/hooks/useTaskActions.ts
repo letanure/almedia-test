@@ -15,6 +15,13 @@ export const useTaskActions = (columnId: string) => {
     })
   }
 
+  const openTaskModal = (modalComponent: React.ReactNode) => {
+    modal.openForm("task-modal", modalComponent, {
+      title: t("kanban.task.viewDetails"),
+      size: "md",
+    })
+  }
+
   const openEditTaskModal = (formComponent: React.ReactNode) => {
     modal.openForm("edit-task", formComponent, {
       title: t("kanban.task.editTask"),
@@ -30,7 +37,7 @@ export const useTaskActions = (columnId: string) => {
 
   const updateTask = (taskId: string, taskData: TaskFormData) => {
     taskStore.updateTask(taskId, taskData)
-    modal.close("edit-task")
+    modal.close("task-modal")
   }
 
   const handleDeleteTask = async (taskId: string, taskTitle: string) => {
@@ -44,12 +51,18 @@ export const useTaskActions = (columnId: string) => {
     }
   }
 
+  const getTaskData = (taskId: string) => {
+    return taskStore.getTaskById(taskId)
+  }
+
   return {
     openAddTaskModal,
+    openTaskModal,
     openEditTaskModal,
     addTask,
     updateTask,
     handleDeleteTask,
+    getTaskData,
     columnId,
   }
 }

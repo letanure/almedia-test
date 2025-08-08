@@ -1,35 +1,33 @@
-import { observer } from "mobx-react-lite"
 import { useState } from "react"
-import { useStore } from "@/hooks/useStores"
-import { useTaskModalActions } from "../../hooks/useTaskModalActions"
-import type { TaskFormData } from "../../schemas"
 import { TaskForm } from "./TaskForm"
 import { TaskView } from "./TaskView"
 
 interface TaskModalProps {
   taskId: string
+  title: string
+  description?: string
+  onUpdate: (
+    taskId: string,
+    data: { title: string; description?: string },
+  ) => void
+  onDelete: (taskId: string, taskTitle: string) => void
 }
 
-export const TaskModal = observer(({ taskId }: TaskModalProps) => {
+export const TaskModal = ({
+  taskId,
+  title,
+  description,
+  onUpdate,
+  onDelete,
+}: TaskModalProps) => {
   const [isEditing, setIsEditing] = useState(false)
-  const { taskStore } = useStore()
-  const { handleUpdateTask, handleDeleteTask } = useTaskModalActions(taskId)
-
-  const task = taskStore.getTaskById(taskId)
-  if (!task) return null
-
-  const { title, description, dueDate, importance, urgency } = task
-  const comments = task.comments || []
-
-  // Force MobX to track comments by accessing length
-  comments.length
 
   const handleEdit = () => {
     setIsEditing(true)
   }
 
-  const handleSave = (data: TaskFormData) => {
-    handleUpdateTask(taskId, data)
+  const handleSave = (data: { title: string; description?: string }) => {
+    onUpdate(taskId, data)
     setIsEditing(false)
   }
 
@@ -38,13 +36,13 @@ export const TaskModal = observer(({ taskId }: TaskModalProps) => {
   }
 
   const handleDelete = () => {
-    handleDeleteTask(taskId, title)
+    onDelete(taskId, title)
   }
 
   if (isEditing) {
     return (
       <TaskForm
-        initialData={{ title, description, dueDate, importance, urgency }}
+        initialData={{ title, description }}
         onSubmit={handleSave}
         onCancel={handleCancel}
       />
@@ -53,12 +51,10 @@ export const TaskModal = observer(({ taskId }: TaskModalProps) => {
 
   return (
     <TaskView
-      taskId={taskId}
       title={title}
       description={description}
-      comments={comments}
       onEdit={handleEdit}
       onDelete={handleDelete}
     />
   )
-})
+}
