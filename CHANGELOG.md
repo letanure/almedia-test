@@ -1,10 +1,3 @@
-## [1.0.1](https://github.com/letanure/almedia-test/compare/v1.0.0...v1.0.1) (2025-08-08)
-
-
-### Bug Fixes
-
-* use desktop chromium snapshots instead of mobile for demo GIF ([e49efeb](https://github.com/letanure/almedia-test/commit/e49efeb4de152e8fd8f3b71d946913f7292a29c0))
-
 # 1.0.0 (2025-08-08)
 
 
