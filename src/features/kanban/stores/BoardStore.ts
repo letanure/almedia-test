@@ -53,18 +53,11 @@ export class BoardStore {
     const sourceColumnId = this.getColumnForTask(taskId)
     if (!sourceColumnId) return
 
-    // Remove from source
-    const sourceTasks = this.columnTasks[sourceColumnId] || []
-    const sourceIndex = sourceTasks.indexOf(taskId)
-    if (sourceIndex === -1) return
+    // Remove from source column
+    this.removeTaskFromColumn(taskId, sourceColumnId)
 
-    sourceTasks.splice(sourceIndex, 1)
-    this.columnTasks[sourceColumnId] = sourceTasks
-
-    // Add to target
-    const targetTasks = this.columnTasks[targetColumnId] || []
-    targetTasks.splice(targetPosition, 0, taskId)
-    this.columnTasks[targetColumnId] = targetTasks
+    // Add to target column at position
+    this.addTaskToColumn(taskId, targetColumnId, targetPosition)
   }
 
   // Get all task IDs in a column (in order)

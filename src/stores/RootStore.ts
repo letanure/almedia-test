@@ -1,5 +1,8 @@
 import { makeAutoObservable } from "mobx"
 import { kanbanFeature } from "@/features/kanban"
+import type { BoardStore } from "@/features/kanban/stores/BoardStore"
+import type { ColumnStore } from "@/features/kanban/stores/ColumnStore"
+import type { TaskStore } from "@/features/kanban/stores/TaskStore"
 import { todoFeature } from "@/features/todo"
 import { makePersistent } from "@/lib/storePersistence"
 import type { StoreConstructor } from "@/types/shared"
@@ -7,9 +10,9 @@ import type { StoreConstructor } from "@/types/shared"
 export class RootStore {
   // Explicitly typed stores
   todoStore!: InstanceType<NonNullable<typeof todoFeature.stores>[number]>
-  columnStore!: InstanceType<NonNullable<typeof kanbanFeature.stores>[0]>
-  taskStore!: InstanceType<NonNullable<typeof kanbanFeature.stores>[1]>
-  boardStore!: InstanceType<NonNullable<typeof kanbanFeature.stores>[2]>
+  columnStore!: ColumnStore
+  taskStore!: TaskStore
+  boardStore!: BoardStore
 
   constructor() {
     // Initialize stores from features
