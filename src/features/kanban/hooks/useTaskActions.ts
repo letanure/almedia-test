@@ -15,15 +15,29 @@ export const useTaskActions = (columnId: string) => {
     })
   }
 
+  const openEditTaskModal = (formComponent: React.ReactNode) => {
+    modal.openForm("edit-task", formComponent, {
+      title: t("kanban.task.editTask"),
+      size: "md",
+    })
+  }
+
   const addTask = (taskData: TaskFormData) => {
     const task = taskStore.createTask(taskData)
     boardStore.addTaskToColumn(task.id, columnId)
     modal.close("add-task")
   }
 
+  const updateTask = (taskId: string, taskData: TaskFormData) => {
+    taskStore.updateTask(taskId, taskData)
+    modal.close("edit-task")
+  }
+
   return {
     openAddTaskModal,
+    openEditTaskModal,
     addTask,
+    updateTask,
     columnId,
   }
 }
