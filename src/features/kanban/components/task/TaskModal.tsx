@@ -22,7 +22,7 @@ export const TaskModal = observer(({ taskId }: TaskModalProps) => {
   const comments = task.comments || []
 
   // Force MobX to track comments by accessing length
-  const _ = comments.length
+  comments.length
 
   const handleEdit = () => {
     setIsEditing(true)
