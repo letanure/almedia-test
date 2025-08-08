@@ -12,8 +12,10 @@ import { useStore } from "@/hooks/useStores"
 import { BoardHeader } from "./components/BoardHeader"
 import { DraggableTaskCard } from "./components/dnd/DraggableTaskCard"
 import { DroppableColumn } from "./components/dnd/DroppableColumn"
+import { KeyboardHandler } from "./components/KeyboardHandler"
 import { PersistentTaskModal } from "./components/task/PersistentTaskModal"
 import { TaskCard } from "./components/task/TaskCard"
+import { KeyboardNavigationProvider } from "./contexts/KeyboardNavigationContext"
 import { TaskModalProvider } from "./contexts/TaskModalContext"
 import { useDragAndDrop } from "./hooks/useDragAndDrop"
 
@@ -48,63 +50,66 @@ export const KanbanBoard = observer(() => {
   }
 
   return (
-    <TaskModalProvider>
-      <DndContext
-        collisionDetection={closestCenter}
-        onDragStart={handleDragStart}
-        onDragEnd={handleDragEndWithPreview}
-      >
-        <div className="h-full p-6">
-          <BoardHeader />
+    <KeyboardNavigationProvider>
+      <TaskModalProvider>
+        <KeyboardHandler />
+        <DndContext
+          collisionDetection={closestCenter}
+          onDragStart={handleDragStart}
+          onDragEnd={handleDragEndWithPreview}
+        >
+          <div className="h-full p-6">
+            <BoardHeader />
 
-          <div className="flex gap-4 overflow-x-auto pb-4">
-            {columnStore.columns.map((column) => {
-              const taskIds = boardStore.getTaskIdsByColumn(column.id)
-              const tasks = taskStore.getTasksByIds(taskIds)
+            <div className="flex gap-4 overflow-x-auto pb-4">
+              {columnStore.columns.map((column) => {
+                const taskIds = boardStore.getTaskIdsByColumn(column.id)
+                const tasks = taskStore.getTasksByIds(taskIds)
 
-              return (
-                <DroppableColumn
-                  key={column.id}
-                  columnId={column.id}
-                  title={column.name}
-                  taskIds={taskIds}
-                >
-                  {tasks.length > 0
-                    ? tasks.map((task) => (
-                        <DraggableTaskCard
-                          key={task.id}
-                          taskId={task.id}
-                          columnId={column.id}
-                          title={task.title}
-                          description={task.description}
-                        />
-                      ))
-                    : !activeTask && (
-                        <div className="text-center text-gray-500 text-sm py-4">
-                          {t("kanban.column.emptyColumn")}
-                        </div>
-                      )}
-                </DroppableColumn>
-              )
-            })}
-          </div>
-        </div>
-
-        <DragOverlay>
-          {activeTask && (
-            <div className="transform rotate-2 shadow-2xl">
-              <TaskCard
-                taskId={activeTask.id}
-                columnId={activeTask.columnId}
-                title={activeTask.title}
-                description={activeTask.description}
-              />
+                return (
+                  <DroppableColumn
+                    key={column.id}
+                    columnId={column.id}
+                    title={column.name}
+                    taskIds={taskIds}
+                  >
+                    {tasks.length > 0
+                      ? tasks.map((task) => (
+                          <DraggableTaskCard
+                            key={task.id}
+                            taskId={task.id}
+                            columnId={column.id}
+                            title={task.title}
+                            description={task.description}
+                          />
+                        ))
+                      : !activeTask && (
+                          <div className="text-center text-gray-500 text-sm py-4">
+                            {t("kanban.column.emptyColumn")}
+                          </div>
+                        )}
+                  </DroppableColumn>
+                )
+              })}
             </div>
-          )}
-        </DragOverlay>
+          </div>
 
-        <PersistentTaskModal />
-      </DndContext>
-    </TaskModalProvider>
+          <DragOverlay>
+            {activeTask && (
+              <div className="transform rotate-2 shadow-2xl">
+                <TaskCard
+                  taskId={activeTask.id}
+                  columnId={activeTask.columnId}
+                  title={activeTask.title}
+                  description={activeTask.description}
+                />
+              </div>
+            )}
+          </DragOverlay>
+
+          <PersistentTaskModal />
+        </DndContext>
+      </TaskModalProvider>
+    </KeyboardNavigationProvider>
   )
 })
