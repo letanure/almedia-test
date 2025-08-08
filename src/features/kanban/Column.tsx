@@ -1,16 +1,16 @@
 import type { ReactNode } from "react"
+import { ColumnHeader } from "./components/ColumnHeader"
 
 interface ColumnProps {
   title: string
   children: ReactNode
+  onDelete: () => void
 }
 
-export const Column = ({ title, children }: ColumnProps) => {
+export const Column = ({ title, children, onDelete }: ColumnProps) => {
   return (
     <div className="flex-1 border border-gray-300 rounded-lg">
-      <div className="p-3 border-b border-gray-300">
-        <h3 className="font-medium">{title}</h3>
-      </div>
+      <ColumnHeader title={title} onDelete={onDelete} />
       <div className="p-3">{children}</div>
     </div>
   )
