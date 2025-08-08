@@ -2,6 +2,7 @@ import { Edit, Plus, Trash2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useColumnActions } from "../../hooks/useColumnActions"
 import { useTaskActions } from "../../hooks/useTaskActions"
+import { TaskForm } from "../task/TaskForm"
 import { ColumnForm } from "./ColumnForm"
 
 interface ColumnHeaderProps {
@@ -14,7 +15,7 @@ export const ColumnHeader = ({ columnId, title }: ColumnHeaderProps) => {
     columnId,
     title,
   )
-  const { openAddTaskModal } = useTaskActions(columnId)
+  const { openAddTaskModal, addTask } = useTaskActions(columnId)
 
   const handleEdit = () => {
     openEditModal(
@@ -23,7 +24,7 @@ export const ColumnHeader = ({ columnId, title }: ColumnHeaderProps) => {
   }
 
   const handleAddTask = () => {
-    openAddTaskModal(<div>Task Form Placeholder</div>)
+    openAddTaskModal(<TaskForm onSubmit={addTask} />)
   }
 
   return (

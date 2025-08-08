@@ -6,7 +6,7 @@ import type { TaskFormData } from "../schemas"
 export const useTaskActions = (columnId: string) => {
   const { t } = useTranslation()
   const modal = useModal()
-  const { taskStore } = useStore()
+  const { taskStore, boardStore } = useStore()
 
   const openAddTaskModal = (formComponent: React.ReactNode) => {
     modal.openForm("add-task", formComponent, {
@@ -16,8 +16,8 @@ export const useTaskActions = (columnId: string) => {
   }
 
   const addTask = (taskData: TaskFormData) => {
-    // TODO: Implement task creation
-    taskStore.addTask(columnId, taskData)
+    const task = taskStore.createTask(taskData)
+    boardStore.addTaskToColumn(task.id, columnId)
     modal.close("add-task")
   }
 

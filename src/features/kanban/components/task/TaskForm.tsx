@@ -1,60 +1,53 @@
-import { useEffect } from "react"
 import { useTranslation } from "react-i18next"
-import { FormBuilder } from "@/components/custom-ui/FormBuilder"
-import { Stack } from "@/components/custom-ui/Stack"
-import { Button } from "@/components/ui/button"
+import { FormBuilder } from "@/components/custom-ui/FormBuilder/FormBuilder"
+import type { FormFieldConfig } from "@/components/custom-ui/FormBuilder/types"
 import { type TaskFormData, TaskFormSchema } from "../../schemas"
 
 interface TaskFormProps {
   onSubmit: (data: TaskFormData) => void
-  onCancel: () => void
   initialData?: TaskFormData
 }
 
-export function TaskForm({ onSubmit, onCancel, initialData }: TaskFormProps) {
+export const TaskForm = ({ onSubmit, initialData }: TaskFormProps) => {
   const { t } = useTranslation()
 
-  // Auto-focus first field with delay for modal animation
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      const firstInput = document.querySelector(
-        'input[name="title"]',
-      ) as HTMLInputElement
-      if (firstInput) {
-        firstInput.focus()
-      }
-    }, 300)
-    return () => clearTimeout(timer)
-  }, [])
+  const fields: FormFieldConfig[] = [
+    {
+      type: "text",
+      name: "title",
+      label: t("kanban.task.title"),
+      placeholder: t("kanban.task.title"),
+      autoComplete: "off",
+      layout: "full",
+    },
+    {
+      type: "textarea",
+      name: "description",
+      label: t("kanban.task.description"),
+      placeholder: t("kanban.task.description"),
+      autoComplete: "off",
+      layout: "full",
+    },
+  ]
+
+  const handleSubmit = async (data: TaskFormData) => {
+    onSubmit(data)
+  }
 
   return (
-    <Stack spacing="md">
-      <FormBuilder
-        fields={[
-          {
-            name: "title",
-            type: "text",
-            label: t("kanban.task.title"),
-            placeholder: t("kanban.task.title"),
-            layout: "full",
-          },
-          {
-            name: "description",
-            type: "textarea",
-            label: t("kanban.task.description"),
-            placeholder: t("kanban.task.description"),
-            layout: "full",
-            rows: 4,
-          },
-        ]}
-        schema={TaskFormSchema}
-        onSubmit={onSubmit}
-        defaultValues={initialData}
-        submitLabel={initialData ? t("common.save") : t("kanban.task.addTask")}
-      />
-      <Button variant="outline" onClick={onCancel} className="w-full">
-        {t("common.cancel")}
-      </Button>
-    </Stack>
+    <FormBuilder
+      fields={fields}
+      schema={TaskFormSchema}
+      defaultValues={{
+        title: initialData?.title || "",
+        description: initialData?.description || "",
+      }}
+      onSubmit={handleSubmit}
+      submitLabel={initialData ? t("common.save") : t("kanban.task.addTask")}
+      resetLabel=""
+      showReset={false}
+      resetAfterSubmit={true}
+      translateMessage={t}
+    />
   )
 }

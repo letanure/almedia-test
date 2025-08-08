@@ -2,6 +2,7 @@ import { Plus } from "lucide-react"
 import type { ReactNode } from "react"
 import { Button } from "@/components/ui/button"
 import { useTaskActions } from "../../hooks/useTaskActions"
+import { TaskForm } from "../task/TaskForm"
 import { ColumnHeader } from "./ColumnHeader"
 
 interface ColumnProps {
@@ -11,10 +12,10 @@ interface ColumnProps {
 }
 
 export const Column = ({ columnId, title, children }: ColumnProps) => {
-  const { openAddTaskModal } = useTaskActions(columnId)
+  const { openAddTaskModal, addTask } = useTaskActions(columnId)
 
   const handleAddTask = () => {
-    openAddTaskModal(<div>Task Form Placeholder</div>)
+    openAddTaskModal(<TaskForm onSubmit={addTask} />)
   }
 
   return (
