@@ -22,6 +22,7 @@ export const DraggableTaskCard = ({
     transform,
     transition,
     isDragging,
+    isOver,
   } = useSortable({
     id: taskId,
     data: {
@@ -33,17 +34,29 @@ export const DraggableTaskCard = ({
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
-    opacity: isDragging ? 0.5 : 1,
   }
 
   return (
-    <div ref={setNodeRef} style={style} {...attributes} {...listeners}>
-      <TaskCard
-        taskId={taskId}
-        columnId={columnId}
-        title={title}
-        description={description}
-      />
-    </div>
+    <>
+      {/* Gray shadow placeholder showing where the card will be dropped */}
+      {isOver && (
+        <div className="bg-gray-200 border-2 border-dashed border-gray-400 rounded p-2 mb-2 min-h-[60px] opacity-60 shadow-sm flex items-center justify-center">
+          <div className="text-gray-500 text-sm">Drop here</div>
+        </div>
+      )}
+
+      {!isDragging && (
+        <div ref={setNodeRef} style={style} {...attributes} {...listeners}>
+          <TaskCard
+            taskId={taskId}
+            columnId={columnId}
+            title={title}
+            description={description}
+          />
+        </div>
+      )}
+
+      {isDragging && <div ref={setNodeRef} style={style} className="h-0" />}
+    </>
   )
 }

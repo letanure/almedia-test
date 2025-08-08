@@ -19,9 +19,9 @@ export const Column = ({ columnId, title, children }: ColumnProps) => {
   }
 
   return (
-    <div className="flex-1 border border-gray-300 rounded-lg flex flex-col group">
+    <div className="h-full border border-gray-300 rounded-lg flex flex-col group">
       <ColumnHeader columnId={columnId} title={title} />
-      <div className="p-3 flex-1">{children}</div>
+      <div className="flex-1 p-3">{children}</div>
       <div className="p-3 pt-0">
         <Button
           variant="ghost"
