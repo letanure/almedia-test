@@ -1,115 +1,60 @@
-import { GripVertical, MoreHorizontal, X } from "lucide-react"
-import { useState } from "react"
-import { useTranslation } from "react-i18next"
-import { Flex } from "@/components/custom-ui/Flex"
-import { Text } from "@/components/custom-ui/Text"
+import { Edit, Plus, Trash2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { Input } from "@/components/ui/input"
-import { useModal } from "@/contexts/ModalContext"
+import { useColumnActions } from "../../hooks/useColumnActions"
+import { useTaskActions } from "../../hooks/useTaskActions"
+import { ColumnForm } from "./ColumnForm"
 
 interface ColumnHeaderProps {
-  name: string
-  onUpdate: (name: string) => void
-  onDelete: () => void
-  dragHandleProps?: Record<string, unknown>
-  isDragging?: boolean
+  columnId: string
+  title: string
 }
 
-export const ColumnHeader = ({
-  name,
-  onUpdate,
-  onDelete,
-  dragHandleProps,
-  isDragging,
-}: ColumnHeaderProps) => {
-  const { t } = useTranslation()
-  const modal = useModal()
-  const [isEditing, setIsEditing] = useState(false)
-  const [editName, setEditName] = useState(name)
+export const ColumnHeader = ({ columnId, title }: ColumnHeaderProps) => {
+  const { openEditModal, updateColumn, handleDelete } = useColumnActions(
+    columnId,
+    title,
+  )
+  const { openAddTaskModal } = useTaskActions(columnId)
 
-  const handleSave = () => {
-    if (editName.trim() && editName.trim() !== name) {
-      onUpdate(editName.trim())
-    }
-    setIsEditing(false)
-  }
-
-  const handleCancel = () => {
-    setEditName(name)
-    setIsEditing(false)
-  }
-
-  const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter") handleSave()
-    if (e.key === "Escape") handleCancel()
-  }
-
-  const handleDelete = async () => {
-    const confirmed = await modal.confirmDelete({
-      message: t("kanban.column.confirmDeleteMessage"),
-    })
-
-    if (confirmed) {
-      onDelete()
-    }
-  }
-
-  if (isEditing) {
-    return (
-      <Flex align="center" className="gap-2 flex-1">
-        <Input
-          value={editName}
-          onChange={(e) => setEditName(e.target.value)}
-          onKeyDown={handleKeyPress}
-          onBlur={handleSave}
-          className="text-sm font-medium"
-          autoFocus
-        />
-        <Button size="sm" variant="ghost" onClick={handleCancel}>
-          <X className="h-4 w-4" />
-        </Button>
-      </Flex>
+  const handleEdit = () => {
+    openEditModal(
+      <ColumnForm initialData={{ name: title }} onSubmit={updateColumn} />,
     )
   }
 
+  const handleAddTask = () => {
+    openAddTaskModal(<div>Task Form Placeholder</div>)
+  }
+
   return (
-    <Flex justify="between" align="center">
-      <Flex align="center" className="gap-2 flex-1">
-        {dragHandleProps && (
-          <Button
-            variant="ghost"
-            size="sm"
-            className={`cursor-grab p-1 ${isDragging ? "cursor-grabbing opacity-50" : "hover:bg-muted"}`}
-            {...dragHandleProps}
-          >
-            <GripVertical className="h-4 w-4 text-muted-foreground" />
-          </Button>
-        )}
-        <Text tag="h3" size="sm" weight="medium" className="flex-1">
-          {name}
-        </Text>
-      </Flex>
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button variant="ghost" size="sm">
-            <MoreHorizontal className="h-4 w-4" />
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent>
-          <DropdownMenuItem onClick={() => setIsEditing(true)}>
-            {t("kanban.column.editColumn")}
-          </DropdownMenuItem>
-          <DropdownMenuItem onClick={handleDelete} className="text-destructive">
-            {t("kanban.column.deleteColumn")}
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
-    </Flex>
+    <div className="p-3 border-b border-gray-300 flex justify-between items-center group">
+      <h3 className="font-medium">{title}</h3>
+      <div className="flex gap-1">
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={handleAddTask}
+          className="h-6 w-6 p-0 opacity-0 group-hover:opacity-40 hover:opacity-100 transition-opacity"
+        >
+          <Plus className="h-3 w-3" />
+        </Button>
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={handleEdit}
+          className="h-6 w-6 p-0 opacity-0 group-hover:opacity-40 hover:opacity-100 transition-opacity"
+        >
+          <Edit className="h-3 w-3" />
+        </Button>
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={handleDelete}
+          className="h-6 w-6 p-0 opacity-0 group-hover:opacity-40 hover:opacity-100 transition-opacity"
+        >
+          <Trash2 className="h-3 w-3" />
+        </Button>
+      </div>
+    </div>
   )
 }

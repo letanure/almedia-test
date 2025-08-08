@@ -1,36 +1,36 @@
-import { Stack } from "@/components/custom-ui/Stack"
-import { Card } from "@/components/ui/card"
-import type { Column as ColumnType } from "../../schemas"
-import { TaskList } from "../task/TaskList"
+import { Plus } from "lucide-react"
+import type { ReactNode } from "react"
+import { Button } from "@/components/ui/button"
+import { useTaskActions } from "../../hooks/useTaskActions"
 import { ColumnHeader } from "./ColumnHeader"
 
 interface ColumnProps {
-  column: ColumnType
-  onUpdateColumn: (id: string, name: string) => void
-  onDeleteColumn: (id: string) => void
-  dragHandleProps?: Record<string, unknown>
-  isDragging?: boolean
+  columnId: string
+  title: string
+  children: ReactNode
 }
 
-export const Column = ({
-  column,
-  onUpdateColumn,
-  onDeleteColumn,
-  dragHandleProps,
-  isDragging,
-}: ColumnProps) => {
+export const Column = ({ columnId, title, children }: ColumnProps) => {
+  const { openAddTaskModal } = useTaskActions(columnId)
+
+  const handleAddTask = () => {
+    openAddTaskModal(<div>Task Form Placeholder</div>)
+  }
+
   return (
-    <Card className={`min-w-72 flex-1 p-4 ${isDragging ? "opacity-40" : ""}`}>
-      <Stack spacing="md">
-        <ColumnHeader
-          name={column.name}
-          onUpdate={(name) => onUpdateColumn(column.id, name)}
-          onDelete={() => onDeleteColumn(column.id)}
-          dragHandleProps={dragHandleProps}
-          isDragging={isDragging}
-        />
-        <TaskList columnId={column.id} />
-      </Stack>
-    </Card>
+    <div className="flex-1 border border-gray-300 rounded-lg flex flex-col group">
+      <ColumnHeader columnId={columnId} title={title} />
+      <div className="p-3 flex-1">{children}</div>
+      <div className="p-3 pt-0">
+        <Button
+          variant="ghost"
+          onClick={handleAddTask}
+          className="w-full justify-start text-gray-600 hover:text-black opacity-0 group-hover:opacity-40 hover:opacity-100 transition-opacity"
+        >
+          <Plus className="h-4 w-4 mr-2" />
+          Add a task
+        </Button>
+      </div>
+    </div>
   )
 }
