@@ -12,9 +12,11 @@ export const KeyboardHandler = () => {
       modal.open("keyboard-shortcuts", <KeyboardShortcutsModal />, {
         title: "Keyboard Shortcuts",
         size: "xxl",
+        onClose: () => {
+          setIsHelpModalOpen(false)
+          modal.close("keyboard-shortcuts")
+        },
       })
-      // Set it back to false after opening
-      setIsHelpModalOpen(false)
     }
   }, [isHelpModalOpen, modal, setIsHelpModalOpen])
 
