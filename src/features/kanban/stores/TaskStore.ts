@@ -9,7 +9,7 @@ import {
 export type { Task }
 
 export class TaskStore {
-  tasks: Map<string, Task> = new Map()
+  tasks: Task[] = []
 
   constructor() {
     makeAutoObservable(this)
@@ -29,14 +29,15 @@ export class TaskStore {
       createdAt: new Date(),
     }
 
-    this.tasks.set(task.id, task)
+    this.tasks.push(task)
     return task
   }
 
   updateTask(id: string, data: UpdateTask) {
-    const task = this.tasks.get(id)
-    if (!task) return
+    const taskIndex = this.tasks.findIndex((task) => task.id === id)
+    if (taskIndex === -1) return
 
+    const task = this.tasks[taskIndex]
     const updatedTask: Task = {
       ...task,
       title: data.title?.trim() ?? task.title,
@@ -44,28 +45,31 @@ export class TaskStore {
       updatedAt: new Date(),
     }
 
-    this.tasks.set(id, updatedTask)
+    this.tasks[taskIndex] = updatedTask
   }
 
   deleteTask(id: string) {
-    this.tasks.delete(id)
+    const taskIndex = this.tasks.findIndex((task) => task.id === id)
+    if (taskIndex !== -1) {
+      this.tasks.splice(taskIndex, 1)
+    }
   }
 
   getTaskById(id: string): Task | undefined {
-    return this.tasks.get(id)
+    return this.tasks.find((task) => task.id === id)
   }
 
   getTasksByIds(ids: string[]): Task[] {
     return ids
-      .map((id) => this.tasks.get(id))
+      .map((id) => this.tasks.find((task) => task.id === id))
       .filter((task): task is Task => task !== undefined)
   }
 
   get totalTasks() {
-    return this.tasks.size
+    return this.tasks.length
   }
 
   get allTasks(): Task[] {
-    return Array.from(this.tasks.values())
+    return this.tasks
   }
 }

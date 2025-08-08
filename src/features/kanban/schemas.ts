@@ -71,9 +71,9 @@ export const TaskFormSchema = z.object({
   description: z.string().optional(),
 })
 
-// Store schema for tasks (Map structure)
+// Store schema for tasks (array structure)
 export const TaskStoreSchema = z.object({
-  tasks: z.map(z.string(), TaskSchema),
+  tasks: z.array(TaskSchema),
 })
 
 // Inferred task types
@@ -89,8 +89,8 @@ export type TaskStoreData = z.infer<typeof TaskStoreSchema>
 
 // Board schema for managing task positions in columns
 export const BoardSchema = z.object({
-  // Map of columnId to array of taskIds (in order)
-  columnTasks: z.map(z.string(), z.array(z.string())),
+  // Object mapping columnId to array of taskIds (in order)
+  columnTasks: z.record(z.string(), z.array(z.string())),
 })
 
 // Inferred board types
