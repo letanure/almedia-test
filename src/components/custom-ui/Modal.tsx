@@ -74,6 +74,8 @@ export function Modal({
               transformOrigin="center"
               className={`relative bg-background border rounded-lg shadow-lg w-full pointer-events-auto ${sizeClasses[size]}`}
               onClick={(e) => e.stopPropagation()}
+              role="dialog"
+              aria-modal="true"
             >
               {(displayTitle || closable) && (
                 <div className="flex items-center justify-between p-6 pb-2">
