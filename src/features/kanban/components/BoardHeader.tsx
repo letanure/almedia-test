@@ -1,45 +1,36 @@
-import { Keyboard } from "lucide-react"
+import { Plus } from "lucide-react"
 import { useTranslation } from "react-i18next"
+import { Flex } from "@/components/custom-ui/Flex"
+import { Stack } from "@/components/custom-ui/Stack"
+import { Text } from "@/components/custom-ui/Text"
 import { Button } from "@/components/ui/button"
-import { useModal } from "@/contexts/ModalContext"
-import { useStore } from "@/hooks/useStores"
-import { ColumnForm } from "./column/ColumnForm"
 
-export const BoardHeader = () => {
+interface BoardHeaderProps {
+  totalColumns: number
+  onAddColumn: () => void
+  disableAddButton?: boolean
+}
+
+export const BoardHeader = ({
+  totalColumns,
+  onAddColumn,
+  disableAddButton = false,
+}: BoardHeaderProps) => {
   const { t } = useTranslation()
-  const modal = useModal()
-  const { columnStore } = useStore()
-
-  const handleAddColumn = () => {
-    modal.openForm(
-      "add-column",
-      <ColumnForm
-        onSubmit={(name) => {
-          columnStore.addColumn(name)
-          modal.close("add-column")
-        }}
-      />,
-      {
-        title: t("kanban.board.addColumn"),
-        size: "md",
-      },
-    )
-  }
 
   return (
-    <div className="flex justify-between items-center mb-6">
-      <div className="flex items-center gap-4">
-        <h1 className="text-2xl font-bold">{t("kanban.board.title")}</h1>
-        <div className="flex items-center gap-2 text-sm text-gray-500">
-          <Keyboard className="h-4 w-4" />
-          <span>{t("kanban.shortcuts.hint")}</span>
-        </div>
-      </div>
-      <div>
-        <Button onClick={handleAddColumn} data-testid="add-column-button">
-          {t("kanban.board.addColumn")}
-        </Button>
-      </div>
-    </div>
+    <Flex justify="between" align="center">
+      <Stack spacing="xs">
+        <Text tag="h1">{t("kanban.board.title")}</Text>
+        <Text tag="small" variant="muted">
+          {totalColumns} columns
+        </Text>
+      </Stack>
+
+      <Button onClick={onAddColumn} disabled={disableAddButton}>
+        <Plus className="h-4 w-4 mr-2" />
+        {t("kanban.board.addColumn")}
+      </Button>
+    </Flex>
   )
 }

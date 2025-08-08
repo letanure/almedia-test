@@ -9,6 +9,7 @@ export const kanbanTranslations = {
     addTask: "Adicionar Tarefa",
   },
   column: {
+    name: "Nome da coluna",
     defaultNames: {
       todo: "A Fazer",
       inProgress: "Em Progresso",

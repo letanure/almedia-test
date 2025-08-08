@@ -1,4 +1,5 @@
 import { makeAutoObservable } from "mobx"
+import { kanbanFeature } from "@/features/kanban"
 import { todoFeature } from "@/features/todo"
 import { makePersistent } from "@/lib/storePersistence"
 import type { StoreConstructor } from "@/types/shared"
@@ -6,6 +7,7 @@ import type { StoreConstructor } from "@/types/shared"
 export class RootStore {
   // Explicitly typed stores
   todoStore!: InstanceType<NonNullable<typeof todoFeature.stores>[number]>
+  columnStore!: InstanceType<NonNullable<typeof kanbanFeature.stores>[number]>
 
   constructor() {
     // Initialize stores from features
@@ -15,14 +17,18 @@ export class RootStore {
   }
 
   private initializeFeatureStores() {
-    // Initialize feature stores
-    if (todoFeature.stores && todoFeature.stores.length > 0) {
-      for (const StoreClass of todoFeature.stores) {
-        const storeName = this.getStoreName(StoreClass as StoreConstructor)
-        const storeInstance = new StoreClass()
+    // Initialize all feature stores
+    const features = [todoFeature, kanbanFeature]
 
-        // Dynamically assign store to this instance
-        Object.assign(this, { [storeName]: storeInstance })
+    for (const feature of features) {
+      if (feature.stores && feature.stores.length > 0) {
+        for (const StoreClass of feature.stores) {
+          const storeName = this.getStoreName(StoreClass as StoreConstructor)
+          const storeInstance = new StoreClass()
+
+          // Dynamically assign store to this instance
+          Object.assign(this, { [storeName]: storeInstance })
+        }
       }
     }
   }
