@@ -36,12 +36,28 @@ export class ColumnStore {
   }
 
   updateColumn(id: string, data: Partial<UpdateColumn>) {
-    const column = this.columns.find((c) => c.id === id)
-    if (column) {
+    const columnIndex = this.columns.findIndex((c) => c.id === id)
+    if (columnIndex > -1) {
+      const column = this.columns[columnIndex]
+      if (!column) return
+
       if (data.name !== undefined) {
-        column.name = data.name.trim()
+        // Create a new column object to ensure MobX detects the change
+        this.columns[columnIndex] = {
+          id: column.id,
+          name: data.name.trim(),
+          createdAt: column.createdAt,
+          updatedAt: new Date(),
+        }
+      } else {
+        // Only update updatedAt
+        this.columns[columnIndex] = {
+          id: column.id,
+          name: column.name,
+          createdAt: column.createdAt,
+          updatedAt: new Date(),
+        }
       }
-      column.updatedAt = new Date()
     }
   }
 
@@ -54,7 +70,9 @@ export class ColumnStore {
 
   reorderColumns(fromIndex: number, toIndex: number) {
     const [movedColumn] = this.columns.splice(fromIndex, 1)
-    this.columns.splice(toIndex, 0, movedColumn)
+    if (movedColumn) {
+      this.columns.splice(toIndex, 0, movedColumn)
+    }
   }
 
   getColumnById(id: string): Column | undefined {
