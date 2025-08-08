@@ -5,9 +5,10 @@ import { type ColumnFormData, ColumnFormSchema } from "../schemas"
 
 interface ColumnFormProps {
   onSubmit: (name: string) => void
+  initialData?: { name: string }
 }
 
-export const ColumnForm = ({ onSubmit }: ColumnFormProps) => {
+export const ColumnForm = ({ onSubmit, initialData }: ColumnFormProps) => {
   const { t } = useTranslation()
 
   const fields: FormFieldConfig[] = [
@@ -29,9 +30,9 @@ export const ColumnForm = ({ onSubmit }: ColumnFormProps) => {
     <FormBuilder
       fields={fields}
       schema={ColumnFormSchema}
-      defaultValues={{ name: "" }}
+      defaultValues={{ name: initialData?.name || "" }}
       onSubmit={handleSubmit}
-      submitLabel={t("kanban.board.addColumn")}
+      submitLabel={initialData ? t("common.save") : t("kanban.board.addColumn")}
       resetLabel=""
       showReset={false}
       resetAfterSubmit={true}
