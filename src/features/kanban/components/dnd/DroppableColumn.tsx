@@ -8,6 +8,7 @@ interface DroppableColumnProps {
   title: string
   taskIds: string[]
   children: ReactNode
+  className?: string
 }
 
 export const DroppableColumn = ({
@@ -15,6 +16,7 @@ export const DroppableColumn = ({
   title,
   taskIds,
   children,
+  className = "flex-1",
 }: DroppableColumnProps) => {
   const { setNodeRef, isOver } = useDroppable({
     id: columnId,
@@ -25,7 +27,7 @@ export const DroppableColumn = ({
   })
 
   return (
-    <div className="flex-1">
+    <div className={className}>
       <Column columnId={columnId} title={title}>
         <div ref={setNodeRef} className="min-h-[100px]">
           <SortableContext
