@@ -1,36 +1,42 @@
-import { Stack } from "@/components/custom-ui/Stack"
-import { Card } from "@/components/ui/card"
-import type { Column as ColumnType } from "../schemas"
+import { Plus } from "lucide-react"
+import { Button } from "@/components/ui/button"
 import { ColumnHeader } from "./ColumnHeader"
-import { TaskList } from "./TaskList"
+import { TaskCard } from "./TaskCard"
 
 interface ColumnProps {
-  column: ColumnType
-  onUpdateColumn: (id: string, name: string) => void
-  onDeleteColumn: (id: string) => void
-  dragHandleProps?: Record<string, unknown>
-  isDragging?: boolean
+  columnId: string
+  title: string
 }
 
-export const Column = ({
-  column,
-  onUpdateColumn,
-  onDeleteColumn,
-  dragHandleProps,
-  isDragging,
-}: ColumnProps) => {
+export const Column = ({ columnId, title }: ColumnProps) => {
+  const handleAddTask = () => {
+    // TODO: Add task functionality
+  }
+
   return (
-    <Card className={`min-w-72 flex-1 p-4 ${isDragging ? "opacity-40" : ""}`}>
-      <Stack spacing="md">
-        <ColumnHeader
-          name={column.name}
-          onUpdate={(name) => onUpdateColumn(column.id, name)}
-          onDelete={() => onDeleteColumn(column.id)}
-          dragHandleProps={dragHandleProps}
-          isDragging={isDragging}
+    <div className="flex-1 border border-gray-300 rounded-lg flex flex-col group">
+      <ColumnHeader columnId={columnId} title={title} />
+      <div className="p-3 flex-1">
+        <TaskCard
+          title="Sample Task 1"
+          description="This is a sample task description"
         />
-        <TaskList />
-      </Stack>
-    </Card>
+        <TaskCard title="Sample Task 2" />
+        <TaskCard
+          title="Another Task"
+          description="With some description text"
+        />
+      </div>
+      <div className="p-3 pt-0">
+        <Button
+          variant="ghost"
+          onClick={handleAddTask}
+          className="w-full justify-start text-gray-600 hover:text-black opacity-0 group-hover:opacity-40 hover:opacity-100 transition-opacity"
+        >
+          <Plus className="h-4 w-4 mr-2" />
+          Add a task
+        </Button>
+      </div>
+    </div>
   )
 }
