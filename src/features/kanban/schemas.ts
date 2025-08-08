@@ -52,6 +52,7 @@ export const CommentSchema = z.object({
   content: z.string().min(1, "validation.required").trim(),
   createdAt: z.coerce.date(),
   updatedAt: z.coerce.date().optional(),
+  deletedAt: z.coerce.date().optional(),
 })
 
 // Task schema (independent of columns)

@@ -11,6 +11,8 @@ interface TaskViewProps {
   onEdit: () => void
   onDelete: () => void
   onAddComment: (data: CommentFormData) => void
+  onEditComment: (commentId: string, data: CommentFormData) => void
+  onDeleteComment: (commentId: string) => void
 }
 
 export const TaskView = ({
@@ -20,6 +22,8 @@ export const TaskView = ({
   onEdit,
   onDelete,
   onAddComment,
+  onEditComment,
+  onDeleteComment,
 }: TaskViewProps) => {
   const { t } = useTranslation()
 
@@ -35,7 +39,12 @@ export const TaskView = ({
 
       {/* Comments section */}
       <div>
-        <CommentList comments={comments} onAddComment={onAddComment} />
+        <CommentList
+          comments={comments}
+          onAddComment={onAddComment}
+          onEditComment={onEditComment}
+          onDeleteComment={onDeleteComment}
+        />
       </div>
 
       {/* Actions */}

@@ -6,11 +6,15 @@ import { CommentItem } from "./CommentItem"
 interface CommentListProps {
   comments: Comment[]
   onAddComment: (data: CommentFormData) => void
+  onEditComment: (commentId: string, data: CommentFormData) => void
+  onDeleteComment: (commentId: string) => void
 }
 
 export const CommentList = ({
   comments = [],
   onAddComment,
+  onEditComment,
+  onDeleteComment,
 }: CommentListProps) => {
   const { t } = useTranslation()
 
@@ -23,7 +27,12 @@ export const CommentList = ({
       <div className="space-y-3">
         {comments.length > 0 ? (
           comments.map((comment) => (
-            <CommentItem key={comment.id} comment={comment} />
+            <CommentItem
+              key={comment.id}
+              comment={comment}
+              onEdit={onEditComment}
+              onDelete={onDeleteComment}
+            />
           ))
         ) : (
           <p className="text-sm text-gray-400 mb-3">
