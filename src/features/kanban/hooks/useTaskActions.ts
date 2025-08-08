@@ -33,11 +33,23 @@ export const useTaskActions = (columnId: string) => {
     modal.close("edit-task")
   }
 
+  const handleDeleteTask = async (taskId: string, taskTitle: string) => {
+    const confirmed = await modal.confirmDelete({
+      message: t("kanban.task.confirmDeleteMessage", { title: taskTitle }),
+    })
+
+    if (confirmed) {
+      taskStore.deleteTask(taskId)
+      boardStore.deleteTask(taskId)
+    }
+  }
+
   return {
     openAddTaskModal,
     openEditTaskModal,
     addTask,
     updateTask,
+    handleDeleteTask,
     columnId,
   }
 }

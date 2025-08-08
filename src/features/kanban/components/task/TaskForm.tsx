@@ -1,14 +1,20 @@
 import { useTranslation } from "react-i18next"
 import { FormBuilder } from "@/components/custom-ui/FormBuilder/FormBuilder"
 import type { FormFieldConfig } from "@/components/custom-ui/FormBuilder/types"
+import { Button } from "@/components/ui/button"
 import { type TaskFormData, TaskFormSchema } from "../../schemas"
 
 interface TaskFormProps {
   onSubmit: (data: TaskFormData) => void
+  onDelete?: () => void
   initialData?: TaskFormData
 }
 
-export const TaskForm = ({ onSubmit, initialData }: TaskFormProps) => {
+export const TaskForm = ({
+  onSubmit,
+  onDelete,
+  initialData,
+}: TaskFormProps) => {
   const { t } = useTranslation()
 
   const fields: FormFieldConfig[] = [
@@ -35,19 +41,28 @@ export const TaskForm = ({ onSubmit, initialData }: TaskFormProps) => {
   }
 
   return (
-    <FormBuilder
-      fields={fields}
-      schema={TaskFormSchema}
-      defaultValues={{
-        title: initialData?.title || "",
-        description: initialData?.description || "",
-      }}
-      onSubmit={handleSubmit}
-      submitLabel={initialData ? t("common.save") : t("kanban.task.addTask")}
-      resetLabel=""
-      showReset={false}
-      resetAfterSubmit={true}
-      translateMessage={t}
-    />
+    <div>
+      <FormBuilder
+        fields={fields}
+        schema={TaskFormSchema}
+        defaultValues={{
+          title: initialData?.title || "",
+          description: initialData?.description || "",
+        }}
+        onSubmit={handleSubmit}
+        submitLabel={initialData ? t("common.save") : t("kanban.task.addTask")}
+        resetLabel=""
+        showReset={false}
+        resetAfterSubmit={true}
+        translateMessage={t}
+      />
+      {initialData && onDelete && (
+        <div className="mt-4 pt-4 border-t">
+          <Button variant="destructive" onClick={onDelete} className="w-full">
+            {t("kanban.task.deleteTask")}
+          </Button>
+        </div>
+      )}
+    </div>
   )
 }
