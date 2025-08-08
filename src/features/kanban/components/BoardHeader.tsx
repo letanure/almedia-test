@@ -36,7 +36,9 @@ export const BoardHeader = () => {
         </div>
       </div>
       <div>
-        <Button onClick={handleAddColumn}>{t("kanban.board.addColumn")}</Button>
+        <Button onClick={handleAddColumn} data-testid="add-column-button">
+          {t("kanban.board.addColumn")}
+        </Button>
       </div>
     </div>
   )

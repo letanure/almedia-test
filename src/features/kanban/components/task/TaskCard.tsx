@@ -45,6 +45,7 @@ export const TaskCard = observer(
               ? "border-blue-500 bg-blue-50 shadow-sm"
               : "hover:border-gray-400 hover:bg-gray-50"
           }`}
+          data-testid="task-card"
         >
           {/* Drag handle */}
           <div
@@ -79,7 +80,7 @@ export const TaskCard = observer(
                     {commentCount > 0 && (
                       <div className="flex items-center text-xs text-gray-500">
                         <MessageCircle className="h-3 w-3 mr-1" />
-                        <span>{commentCount}</span>
+                        <span data-testid="comment-count">{commentCount}</span>
                       </div>
                     )}
                   </div>

@@ -1,7 +1,8 @@
+import { useState } from "react"
 import { useTranslation } from "react-i18next"
-import { FormBuilder } from "@/components/custom-ui/FormBuilder/FormBuilder"
-import type { FormFieldConfig } from "@/components/custom-ui/FormBuilder/types"
-import { type CommentFormData, CommentFormSchema } from "../../schemas"
+import { Button } from "@/components/ui/button"
+import { Textarea } from "@/components/ui/textarea"
+import type { CommentFormData } from "../../schemas"
 
 interface CommentFormProps {
   onSubmit: (data: CommentFormData) => void
@@ -15,40 +16,58 @@ export const CommentForm = ({
   onSubmit,
   onCancel,
   placeholder,
-  defaultValue,
+  defaultValue = "",
   compact = false,
 }: CommentFormProps) => {
   const { t } = useTranslation()
+  const [content, setContent] = useState(defaultValue)
 
-  const fields: FormFieldConfig[] = [
-    {
-      type: "textarea",
-      name: "content",
-      placeholder: placeholder || t("kanban.comments.placeholder"),
-      className: compact ? "min-h-[60px]" : "min-h-[80px]",
-      layout: "full",
-    },
-  ]
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    if (content.trim()) {
+      onSubmit({ content: content.trim() })
+      setContent("")
+    }
+  }
 
-  const handleSubmit = async (data: CommentFormData) => {
-    onSubmit(data)
+  const handleCancel = () => {
+    setContent(defaultValue)
+    onCancel?.()
   }
 
   return (
-    <FormBuilder
-      fields={fields}
-      schema={CommentFormSchema}
-      defaultValues={{ content: defaultValue || "" }}
+    <form
       onSubmit={handleSubmit}
-      onCancel={onCancel}
-      submitLabel={t("kanban.comments.addComment")}
-      submitSize="sm"
-      cancelLabel={onCancel ? t("common.cancel") : ""}
-      cancelSize="sm"
-      showCancel={!!onCancel}
-      resetAfterSubmit={true}
-      translateMessage={t}
-      className={compact ? "space-y-2" : undefined}
-    />
+      className={compact ? "space-y-2" : "space-y-3"}
+    >
+      <Textarea
+        value={content}
+        onChange={(e) => setContent(e.target.value)}
+        placeholder={placeholder || t("kanban.comments.placeholder")}
+        className={`${compact ? "min-h-[60px]" : "min-h-[80px]"} resize-none`}
+        rows={compact ? 2 : 3}
+        data-testid="comment-input"
+      />
+      <div className="flex gap-2">
+        <Button
+          type="submit"
+          size="sm"
+          disabled={!content.trim()}
+          data-testid="add-comment-button"
+        >
+          {t("kanban.comments.addComment")}
+        </Button>
+        {onCancel && (
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            onClick={handleCancel}
+          >
+            {t("common.cancel")}
+          </Button>
+        )}
+      </div>
+    </form>
   )
 }

@@ -78,7 +78,7 @@ export const TaskForm = ({
   }
 
   return (
-    <div>
+    <div data-testid="task-form">
       <FormBuilder
         fields={fields}
         schema={TaskFormSchema}

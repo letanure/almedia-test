@@ -37,7 +37,7 @@ export const KanbanBoard = observer(() => {
           onDragStart={handleDragStart}
           onDragEnd={handleDragEndWithPreview}
         >
-          <div className="h-full p-6">
+          <div className="h-full p-6" data-testid="kanban-board">
             <BoardHeader />
 
             <div className="relative">

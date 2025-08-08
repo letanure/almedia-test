@@ -35,7 +35,7 @@ export const KeyboardShortcutsModal = () => {
   ]
 
   return (
-    <div className="space-y-6 p-4">
+    <div className="space-y-6 p-4" data-testid="help-modal">
       {categoryOrder.map((category) => (
         <div key={category}>
           <h3 className="text-sm font-semibold text-gray-700 mb-3">
