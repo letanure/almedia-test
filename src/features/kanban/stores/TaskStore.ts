@@ -98,6 +98,20 @@ export class TaskStore {
     task.comments.push(comment)
   }
 
+  addReply(taskId: string, parentId: string, data: CommentFormData): void {
+    const task = this.tasks.find((task) => task.id === taskId) // Get raw task, not filtered
+    if (!task) return
+
+    const comment: Comment = {
+      id: crypto.randomUUID(),
+      content: data.content.trim(),
+      createdAt: new Date(),
+      replyTo: parentId,
+    }
+
+    task.comments.push(comment)
+  }
+
   updateComment(taskId: string, commentId: string, content: string): void {
     const task = this.tasks.find((task) => task.id === taskId) // Get raw task, not filtered
     if (!task) return

@@ -19,6 +19,11 @@ interface TaskModalProps {
     data: CommentFormData,
   ) => void
   onDeleteComment: (taskId: string, commentId: string) => void
+  onReplyComment: (
+    taskId: string,
+    parentId: string,
+    data: CommentFormData,
+  ) => void
 }
 
 export const TaskModal = observer(
@@ -29,6 +34,7 @@ export const TaskModal = observer(
     onAddComment,
     onEditComment,
     onDeleteComment,
+    onReplyComment,
   }: TaskModalProps) => {
     const [isEditing, setIsEditing] = useState(false)
     const { taskStore } = useStore()
@@ -71,6 +77,10 @@ export const TaskModal = observer(
       onDeleteComment(taskId, commentId)
     }
 
+    const handleReplyComment = (parentId: string, data: CommentFormData) => {
+      onReplyComment(taskId, parentId, data)
+    }
+
     if (isEditing) {
       return (
         <TaskForm
@@ -91,6 +101,7 @@ export const TaskModal = observer(
         onAddComment={handleAddComment}
         onEditComment={handleEditComment}
         onDeleteComment={handleDeleteComment}
+        onReplyComment={handleReplyComment}
       />
     )
   },

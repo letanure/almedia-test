@@ -8,6 +8,7 @@ interface CommentListProps {
   onAddComment: (data: CommentFormData) => void
   onEditComment: (commentId: string, data: CommentFormData) => void
   onDeleteComment: (commentId: string) => void
+  onReplyComment: (parentId: string, data: CommentFormData) => void
 }
 
 export const CommentList = ({
@@ -15,6 +16,7 @@ export const CommentList = ({
   onAddComment,
   onEditComment,
   onDeleteComment,
+  onReplyComment,
 }: CommentListProps) => {
   const { t } = useTranslation()
 
@@ -26,14 +28,22 @@ export const CommentList = ({
 
       <div className="space-y-3">
         {comments.length > 0 ? (
-          comments.map((comment) => (
-            <CommentItem
-              key={comment.id}
-              comment={comment}
-              onEdit={onEditComment}
-              onDelete={onDeleteComment}
-            />
-          ))
+          comments.map((comment) => {
+            const parentComment = comment.replyTo
+              ? comments.find((c) => c.id === comment.replyTo)
+              : undefined
+
+            return (
+              <CommentItem
+                key={comment.id}
+                comment={comment}
+                onEdit={onEditComment}
+                onDelete={onDeleteComment}
+                onReply={onReplyComment}
+                parentComment={parentComment}
+              />
+            )
+          })
         ) : (
           <p className="text-sm text-gray-400 mb-3">
             {t("kanban.comments.noComments")}

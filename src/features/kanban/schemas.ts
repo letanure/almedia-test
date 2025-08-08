@@ -53,6 +53,7 @@ export const CommentSchema = z.object({
   createdAt: z.coerce.date(),
   updatedAt: z.coerce.date().optional(),
   deletedAt: z.coerce.date().optional(),
+  replyTo: z.string().optional(), // ID of parent comment if this is a reply
 })
 
 // Task schema (independent of columns)
