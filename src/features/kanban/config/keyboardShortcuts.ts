@@ -11,14 +11,13 @@ export type ShortcutAction =
   | "MOVE_TASK_RIGHT"
   | "MOVE_TASK_UP"
   | "MOVE_TASK_DOWN"
-  | "ADD_COLUMN"
   | "SHOW_HELP"
 
 export interface KeyboardShortcut {
   id: string
   keys: string[]
   action: ShortcutAction
-  category: "navigation" | "task" | "board" | "help"
+  category: "navigation" | "task" | "help"
   descriptionKey: string
   requiresSelection?: boolean
   withShift?: boolean
@@ -80,7 +79,7 @@ export const keyboardShortcuts: KeyboardShortcut[] = [
   },
   {
     id: "delete-task",
-    keys: ["d", "x"],
+    keys: ["Delete"],
     action: "DELETE_TASK",
     category: "task",
     descriptionKey: "kanban.shortcuts.task.delete",
@@ -123,15 +122,6 @@ export const keyboardShortcuts: KeyboardShortcut[] = [
     withShift: true,
   },
 
-  // Board Actions
-  {
-    id: "add-column",
-    keys: ["c"],
-    action: "ADD_COLUMN",
-    category: "board",
-    descriptionKey: "kanban.shortcuts.board.addColumn",
-  },
-
   // Help
   {
     id: "show-help",
@@ -139,7 +129,6 @@ export const keyboardShortcuts: KeyboardShortcut[] = [
     action: "SHOW_HELP",
     category: "help",
     descriptionKey: "kanban.shortcuts.help.show",
-    withShift: true,
   },
 ]
 
@@ -147,7 +136,6 @@ export const getShortcutsByCategory = () => {
   const categories = {
     navigation: [] as KeyboardShortcut[],
     task: [] as KeyboardShortcut[],
-    board: [] as KeyboardShortcut[],
     help: [] as KeyboardShortcut[],
   }
 
