@@ -13,7 +13,7 @@ YELLOW='\033[1;33m'
 NC='\033[0m' # No Color
 
 # Configuration
-SNAPSHOTS_DIR="test-results"
+SNAPSHOTS_DIR="tests/e2e/.snapshots"
 OUTPUT_DIR="docs/assets"
 DELAY=150  # Delay between frames in centiseconds (150 = 1.5 seconds)
 LOOP=0     # 0 = infinite loop
@@ -33,11 +33,11 @@ generate_desktop_gif() {
     echo -e "${BLUE}📱 Generating desktop demo GIF...${NC}"
     
     local desktop_files=(
-        "kanban-board-Kanban-Board--c081c--with-default-three-columns-mobile-chrome/01-initial-load-actual.png"
-        "kanban-board-Kanban-Board--6f677--drop-tasks-between-columns-mobile-chrome/06-tasks-in-columns-actual.png"
-        "kanban-board-Kanban-Board--6403c-should-add-comments-to-task-chromium/05-comments-added-actual.png"
-        "kanban-board-Kanban-Board--c7513-uld-test-keyboard-shortcuts-chromium/11-help-modal-actual.png"
-        "kanban-board-Kanban-Board--6f677--drop-tasks-between-columns-mobile-chrome/07-after-drag-drop-actual.png"
+        "kanban-board.spec.ts-Kanban-Board-E2E-Tests-should-load-with-default-three-columns-01-initial-load-chromium-darwin.png"
+        "kanban-board.spec.ts-Kanban-Board-E2E-Tests-should-drag-and-drop-tasks-between-columns-06-tasks-in-columns-chromium-darwin.png"
+        "kanban-board.spec.ts-Kanban-Board-E2E-Tests-should-add-comments-to-task-05-comments-added-chromium-darwin.png"
+        "kanban-board.spec.ts-Kanban-Board-E2E-Tests-should-test-keyboard-shortcuts-11-help-modal-chromium-darwin.png"
+        "kanban-board.spec.ts-Kanban-Board-E2E-Tests-should-drag-and-drop-tasks-between-columns-07-after-drag-drop-chromium-darwin.png"
     )
     
     # Check if all files exist
