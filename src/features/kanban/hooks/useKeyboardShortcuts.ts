@@ -1,16 +1,27 @@
 import { useCallback, useEffect, useState } from "react"
-import { useModal } from "@/contexts/ModalContext"
+import { useTranslation } from "react-i18next"
 import { useStore } from "@/hooks/useStores"
 import { useKeyboardNavigation } from "../contexts/KeyboardNavigationContext"
 import { useTaskModal } from "../contexts/TaskModalContext"
+import { useTaskActions } from "./useTaskActions"
 
 export const useKeyboardShortcuts = () => {
+  const { t } = useTranslation()
   const { columnStore, boardStore, taskStore } = useStore()
   const { selectedTaskId, selectedColumnId, selectTask, clearSelection } =
     useKeyboardNavigation()
   const { openModal, isOpen } = useTaskModal()
-  const modal = useModal()
   const [isHelpModalOpen, setIsHelpModalOpen] = useState(false)
+
+  // Use taskActions hook for delete functionality
+  const taskActions = useTaskActions(selectedColumnId || "")
+
+  // Use the same add column logic as BoardHeader
+  const handleAddColumn = useCallback(() => {
+    const columnName =
+      prompt(t("kanban.column.name")) || t("kanban.column.defaultNames.todo")
+    columnStore.addColumn(columnName)
+  }, [columnStore, t])
 
   const getFirstAvailableTask = useCallback(() => {
     // Find first column with tasks
@@ -208,39 +219,31 @@ export const useKeyboardShortcuts = () => {
     return tagName === "input" || tagName === "textarea" || isContentEditable
   }, [])
 
+  // Use taskActions hook for delete functionality
   const handleDeleteTask = useCallback(async () => {
     if (!selectedTaskId || !selectedColumnId) return
 
     const task = taskStore.getTaskById(selectedTaskId)
     if (!task) return
 
-    const confirmed = await modal.confirmDelete({
-      titleKey: "kanban.task.deleteTitle",
-      messageKey: "kanban.task.deleteMessage",
-    })
+    // Find next task to select before deleting
+    const nextTask =
+      getNextTask(selectedTaskId) || getPreviousTask(selectedTaskId)
 
-    if (confirmed) {
-      // Find next task to select before deleting
-      const nextTask =
-        getNextTask(selectedTaskId) || getPreviousTask(selectedTaskId)
+    // Use the existing taskActions delete method
+    await taskActions.handleDeleteTask(selectedTaskId, task.title)
 
-      // Delete the task
-      boardStore.removeTask(selectedTaskId, selectedColumnId)
-      taskStore.deleteTask(selectedTaskId)
-
-      // Select next task or clear selection
-      if (nextTask) {
-        selectTask(nextTask.taskId, nextTask.columnId)
-      } else {
-        clearSelection()
-      }
+    // Select next task or clear selection after deletion
+    if (nextTask) {
+      selectTask(nextTask.taskId, nextTask.columnId)
+    } else {
+      clearSelection()
     }
   }, [
     selectedTaskId,
     selectedColumnId,
     taskStore,
-    boardStore,
-    modal,
+    taskActions,
     getNextTask,
     getPreviousTask,
     selectTask,
@@ -385,11 +388,17 @@ export const useKeyboardShortcuts = () => {
           setIsHelpModalOpen(true)
           break
 
-        case "Delete":
+        case "d":
+        case "x":
           e.preventDefault()
           if (selectedTaskId) {
             handleDeleteTask()
           }
+          break
+
+        case "c":
+          e.preventDefault()
+          handleAddColumn()
           break
       }
     }
@@ -414,6 +423,7 @@ export const useKeyboardShortcuts = () => {
     moveTaskToNextColumn,
     moveTaskToPreviousColumn,
     moveTaskUpInColumn,
+    handleAddColumn,
   ])
 
   return {

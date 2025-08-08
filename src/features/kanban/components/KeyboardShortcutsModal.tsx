@@ -27,9 +27,10 @@ const formatShortcutKeys = (shortcut: KeyboardShortcut): string[] => {
 export const KeyboardShortcutsModal = () => {
   const { t } = useTranslation()
   const categories = getShortcutsByCategory()
-  const categoryOrder: Array<"navigation" | "task" | "help"> = [
+  const categoryOrder: Array<"navigation" | "task" | "board" | "help"> = [
     "navigation",
     "task",
+    "board",
     "help",
   ]
 

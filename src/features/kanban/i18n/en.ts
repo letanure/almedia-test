@@ -29,6 +29,9 @@ export const kanbanTranslations = {
     addTask: "Add Task",
     editTask: "Edit Task",
     deleteTask: "Delete Task",
+    deleteTitle: "Delete Task",
+    deleteMessage:
+      "Are you sure you want to delete this task? This action cannot be undone.",
     viewDetails: "View Details",
     comments: "Comments",
     noComments: "No comments yet",
@@ -51,6 +54,7 @@ export const kanbanTranslations = {
     categories: {
       navigation: "Navigation",
       task: "Task Actions",
+      board: "Board Actions",
       help: "Help",
     },
     navigation: {
@@ -68,6 +72,9 @@ export const kanbanTranslations = {
       moveRight: "Move task to next column",
       moveUp: "Move task up in column",
       moveDown: "Move task down in column",
+    },
+    board: {
+      addColumn: "Add new column",
     },
     help: {
       show: "Show keyboard shortcuts",
