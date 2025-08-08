@@ -22,10 +22,7 @@ export const CommentList = ({
 
   return (
     <div className="space-y-4">
-      <h4 className="text-sm font-medium text-gray-700">
-        {t("kanban.comments.title")} ({comments.length})
-      </h4>
-
+      {/* Comments list */}
       <div className="space-y-3">
         {comments.length > 0 ? (
           comments.map((comment) => {
@@ -45,13 +42,16 @@ export const CommentList = ({
             )
           })
         ) : (
-          <p className="text-sm text-gray-400 mb-3">
+          <p className="text-sm text-gray-500 text-center py-6">
             {t("kanban.comments.noComments")}
           </p>
         )}
       </div>
 
-      <CommentForm onSubmit={onAddComment} />
+      {/* Add comment form at bottom */}
+      <div className="border-t border-gray-200 pt-4">
+        <CommentForm onSubmit={onAddComment} />
+      </div>
     </div>
   )
 }

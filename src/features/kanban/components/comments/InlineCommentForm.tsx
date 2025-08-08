@@ -41,7 +41,6 @@ export const InlineCommentForm = ({
         placeholder={placeholder || t("kanban.comments.placeholder")}
         className="flex-1 h-[60px] resize-none text-sm"
         rows={2}
-        data-testid="comment-input"
       />
       <div className="flex gap-1 flex-shrink-0 h-[60px] items-start">
         <Button
@@ -49,7 +48,6 @@ export const InlineCommentForm = ({
           size="sm"
           disabled={!content.trim()}
           className="text-xs px-2"
-          data-testid="add-comment-button"
         >
           {t("kanban.comments.addComment")}
         </Button>

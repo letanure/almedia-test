@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next"
 import { Button } from "@/components/ui/button"
 import { getRelativeTime } from "@/utils"
 import type { Comment, CommentFormData } from "../../schemas"
-import { CommentForm } from "./CommentForm"
+import { InlineCommentForm } from "./InlineCommentForm"
 
 interface CommentItemProps {
   comment: Comment
@@ -58,7 +58,7 @@ export const CommentItem = ({
   if (isEditing) {
     return (
       <div className="border-b border-gray-100 pb-3 mb-3 last:border-b-0 last:pb-0 last:mb-0">
-        <CommentForm
+        <InlineCommentForm
           onSubmit={handleSave}
           onCancel={handleCancel}
           defaultValue={comment.content}
@@ -69,57 +69,55 @@ export const CommentItem = ({
 
   return (
     <div
-      className={`group border-b border-gray-100 pb-3 mb-3 last:border-b-0 last:pb-0 last:mb-0 ${
-        comment.replyTo ? "ml-6 border-l-2 border-gray-200 pl-3" : ""
+      className={`group border-b border-gray-100 pb-2 mb-2 last:border-b-0 last:pb-0 last:mb-0 ${
+        comment.replyTo ? "ml-4 border-l-2 border-gray-200 pl-2" : ""
       }`}
     >
-      {/* Show parent comment context for replies */}
-      {parentComment && (
-        <div className="mb-2 text-xs text-gray-500 bg-gray-50 p-2 rounded">
-          <span className="font-medium">Replying to:</span>{" "}
-          {parentComment.content.substring(0, 100)}
-          {parentComment.content.length > 100 && "..."}
+      <div className="flex justify-between items-center">
+        <div className="flex-1 min-w-0">
+          <span className="text-sm pr-2">
+            {parentComment && (
+              <span className="text-xs text-gray-500 mr-1">→ </span>
+            )}
+            {comment.content}
+          </span>
+          <span className="text-xs text-gray-400 ml-2">
+            [{comment.updatedAt ? t("common.updated") : t("common.created")}{" "}
+            {getRelativeTime(comment.updatedAt || comment.createdAt, t)}]
+          </span>
         </div>
-      )}
-
-      <div className="flex justify-between items-start">
-        <p className="text-sm mb-2 flex-1">{comment.content}</p>
-        <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+        <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0">
           <Button
             variant="ghost"
             size="sm"
             onClick={handleReply}
-            className="h-6 w-6 p-0"
+            className="h-4 w-4 p-0"
           >
-            <Reply className="h-3 w-3" />
+            <Reply className="h-2.5 w-2.5" />
           </Button>
           <Button
             variant="ghost"
             size="sm"
             onClick={handleEdit}
-            className="h-6 w-6 p-0"
+            className="h-4 w-4 p-0"
           >
-            <Edit className="h-3 w-3" />
+            <Edit className="h-2.5 w-2.5" />
           </Button>
           <Button
             variant="ghost"
             size="sm"
             onClick={handleDelete}
-            className="h-6 w-6 p-0 hover:text-red-500"
+            className="h-4 w-4 p-0 hover:text-red-500"
           >
-            <Trash2 className="h-3 w-3" />
+            <Trash2 className="h-2.5 w-2.5" />
           </Button>
         </div>
       </div>
-      <p className="text-xs text-gray-500">
-        {comment.updatedAt ? t("common.updated") : t("common.created")}{" "}
-        {getRelativeTime(comment.updatedAt || comment.createdAt, t)}
-      </p>
 
       {/* Reply form */}
       {isReplying && (
-        <div className="mt-3 pt-3 border-t border-gray-100">
-          <CommentForm
+        <div className="mt-2 pt-2 border-t border-gray-100">
+          <InlineCommentForm
             onSubmit={handleReplySubmit}
             onCancel={handleReplyCancel}
             placeholder={`Reply to this comment...`}

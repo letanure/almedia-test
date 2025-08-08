@@ -8,6 +8,7 @@ interface CommentFormProps {
   onCancel?: () => void
   placeholder?: string
   defaultValue?: string
+  compact?: boolean
 }
 
 export const CommentForm = ({
@@ -15,6 +16,7 @@ export const CommentForm = ({
   onCancel,
   placeholder,
   defaultValue,
+  compact = false,
 }: CommentFormProps) => {
   const { t } = useTranslation()
 
@@ -23,7 +25,7 @@ export const CommentForm = ({
       type: "textarea",
       name: "content",
       placeholder: placeholder || t("kanban.comments.placeholder"),
-      className: "min-h-[80px]",
+      className: compact ? "min-h-[60px]" : "min-h-[80px]",
       layout: "full",
     },
   ]
@@ -46,6 +48,7 @@ export const CommentForm = ({
       showCancel={!!onCancel}
       resetAfterSubmit={true}
       translateMessage={t}
+      className={compact ? "space-y-2" : undefined}
     />
   )
 }

@@ -62,7 +62,7 @@ export const TaskCard = ({
         {/* Card content */}
         <button
           type="button"
-          className="w-full p-2 pl-6 cursor-pointer transition-colors text-left"
+          className="w-full p-2 pl-6 transition-colors text-left"
           onClick={handleClick}
         >
           <div className="text-sm">{title}</div>
