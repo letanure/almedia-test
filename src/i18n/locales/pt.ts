@@ -3,10 +3,12 @@
  */
 
 import { demoFeature } from "@/features/demo"
+import { kanbanFeature } from "@/features/kanban"
 import { todoFeature } from "@/features/todo"
 
 export const pt = {
   todo: todoFeature.translations?.pt,
+  kanban: kanbanFeature.translations?.pt,
   demo: demoFeature.translations?.pt,
   app: {
     name: "Almedia Kanban",
