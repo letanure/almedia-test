@@ -60,7 +60,7 @@ export const PersistentTaskModal = observer(() => {
   }
 
   return (
-    <Modal isOpen={isOpen} onClose={closeModal} title="Task Details" size="md">
+    <Modal isOpen={isOpen} onClose={closeModal} title="Task Details" size="xl">
       <TaskModal
         taskId={taskId}
         onUpdate={handleUpdate}

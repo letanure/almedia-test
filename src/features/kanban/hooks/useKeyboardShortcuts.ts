@@ -1,12 +1,10 @@
 import { useCallback, useEffect, useState } from "react"
-import { useTranslation } from "react-i18next"
 import { useStore } from "@/hooks/useStores"
 import { useKeyboardNavigation } from "../contexts/KeyboardNavigationContext"
 import { useTaskModal } from "../contexts/TaskModalContext"
 import { useTaskActions } from "./useTaskActions"
 
 export const useKeyboardShortcuts = () => {
-  const { t } = useTranslation()
   const { columnStore, boardStore, taskStore } = useStore()
   const { selectedTaskId, selectedColumnId, selectTask, clearSelection } =
     useKeyboardNavigation()
@@ -16,18 +14,11 @@ export const useKeyboardShortcuts = () => {
   // Use taskActions hook for delete functionality
   const taskActions = useTaskActions(selectedColumnId || "")
 
-  // Use the same add column logic as BoardHeader
-  const handleAddColumn = useCallback(() => {
-    const columnName =
-      prompt(t("kanban.column.name")) || t("kanban.column.defaultNames.todo")
-    columnStore.addColumn(columnName)
-  }, [columnStore, t])
-
   const getFirstAvailableTask = useCallback(() => {
     // Find first column with tasks
     for (const column of columnStore.columns) {
       const taskIds = boardStore.getTaskIdsByColumn(column.id)
-      if (taskIds.length > 0) {
+      if (taskIds.length > 0 && taskIds[0]) {
         return { taskId: taskIds[0], columnId: column.id }
       }
     }
@@ -88,10 +79,12 @@ export const useKeyboardShortcuts = () => {
 
       while (attempts < maxAttempts) {
         const nextColumn = columnStore.columns[nextIndex]
+        if (!nextColumn) break
+
         const taskIds = boardStore.getTaskIdsByColumn(nextColumn.id)
 
         // If column has tasks, return first task
-        if (taskIds.length > 0) {
+        if (taskIds.length > 0 && taskIds[0]) {
           return { taskId: taskIds[0], columnId: nextColumn.id }
         }
 
@@ -120,10 +113,12 @@ export const useKeyboardShortcuts = () => {
 
       while (attempts < maxAttempts) {
         const prevColumn = columnStore.columns[prevIndex]
+        if (!prevColumn) break
+
         const taskIds = boardStore.getTaskIdsByColumn(prevColumn.id)
 
         // If column has tasks, return first task
-        if (taskIds.length > 0) {
+        if (taskIds.length > 0 && taskIds[0]) {
           return { taskId: taskIds[0], columnId: prevColumn.id }
         }
 
@@ -148,6 +143,8 @@ export const useKeyboardShortcuts = () => {
       const nextIndex = (currentIndex + 1) % columnStore.columns.length
       const nextColumn = columnStore.columns[nextIndex]
 
+      if (!nextColumn) return null
+
       // Move task to end of next column
       boardStore.moveTask(
         taskId,
@@ -169,6 +166,8 @@ export const useKeyboardShortcuts = () => {
       const prevIndex =
         currentIndex === 0 ? columnStore.columns.length - 1 : currentIndex - 1
       const prevColumn = columnStore.columns[prevIndex]
+
+      if (!prevColumn) return null
 
       // Move task to end of previous column
       boardStore.moveTask(
@@ -254,6 +253,13 @@ export const useKeyboardShortcuts = () => {
     const handleKeyDown = (e: KeyboardEvent) => {
       // Don't interfere when user is typing in input fields
       if (isInInputField()) return
+
+      // Don't interfere when any modal is open
+      if (isOpen || isHelpModalOpen) return
+
+      // Check for any other modals in the DOM
+      const hasOpenModal = document.querySelector('[role="dialog"]')
+      if (hasOpenModal) return
 
       switch (e.key) {
         case "Tab":
@@ -395,11 +401,6 @@ export const useKeyboardShortcuts = () => {
             handleDeleteTask()
           }
           break
-
-        case "c":
-          e.preventDefault()
-          handleAddColumn()
-          break
       }
     }
 
@@ -423,7 +424,7 @@ export const useKeyboardShortcuts = () => {
     moveTaskToNextColumn,
     moveTaskToPreviousColumn,
     moveTaskUpInColumn,
-    handleAddColumn,
+    isHelpModalOpen,
   ])
 
   return {
