@@ -47,14 +47,13 @@ export const DraggableTaskCard = ({
 
       {!isDragging && (
         <div ref={setNodeRef} style={style} {...attributes}>
-          <div {...listeners} className="drag-handle-target">
-            <TaskCard
-              taskId={taskId}
-              columnId={columnId}
-              title={title}
-              description={description}
-            />
-          </div>
+          <TaskCard
+            taskId={taskId}
+            columnId={columnId}
+            title={title}
+            description={description}
+            dragListeners={listeners}
+          />
         </div>
       )}
 
