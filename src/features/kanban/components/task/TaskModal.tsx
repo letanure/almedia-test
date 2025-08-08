@@ -1,4 +1,5 @@
 import { useState } from "react"
+import type { Comment, CommentFormData } from "../../schemas"
 import { TaskForm } from "./TaskForm"
 import { TaskView } from "./TaskView"
 
@@ -6,19 +7,23 @@ interface TaskModalProps {
   taskId: string
   title: string
   description?: string
+  comments: Comment[]
   onUpdate: (
     taskId: string,
     data: { title: string; description?: string },
   ) => void
   onDelete: (taskId: string, taskTitle: string) => void
+  onAddComment: (taskId: string, data: CommentFormData) => void
 }
 
 export const TaskModal = ({
   taskId,
   title,
   description,
+  comments,
   onUpdate,
   onDelete,
+  onAddComment,
 }: TaskModalProps) => {
   const [isEditing, setIsEditing] = useState(false)
 
@@ -39,6 +44,10 @@ export const TaskModal = ({
     onDelete(taskId, title)
   }
 
+  const handleAddComment = (data: CommentFormData) => {
+    onAddComment(taskId, data)
+  }
+
   if (isEditing) {
     return (
       <TaskForm
@@ -53,8 +62,10 @@ export const TaskModal = ({
     <TaskView
       title={title}
       description={description}
+      comments={comments}
       onEdit={handleEdit}
       onDelete={handleDelete}
+      onAddComment={handleAddComment}
     />
   )
 }

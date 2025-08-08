@@ -35,6 +35,8 @@ export const en = {
     cancel: "Cancel",
     confirm: "Confirm",
     delete: "Delete",
+    created: "Created",
+    updated: "Updated",
     confirmDelete: "Confirm Delete",
     confirmDeleteMessage:
       "Are you sure you want to delete this item? This action cannot be undone.",

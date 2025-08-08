@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next"
 import { useModal } from "@/contexts/ModalContext"
 import { useStore } from "@/hooks/useStores"
-import type { TaskFormData } from "../schemas"
+import type { CommentFormData, TaskFormData } from "../schemas"
 
 export const useTaskActions = (columnId: string) => {
   const { t } = useTranslation()
@@ -55,6 +55,10 @@ export const useTaskActions = (columnId: string) => {
     return taskStore.getTaskById(taskId)
   }
 
+  const addComment = (taskId: string, data: CommentFormData) => {
+    taskStore.addComment(taskId, data)
+  }
+
   return {
     openAddTaskModal,
     openTaskModal,
@@ -62,6 +66,7 @@ export const useTaskActions = (columnId: string) => {
     addTask,
     updateTask,
     handleDeleteTask,
+    addComment,
     getTaskData,
     columnId,
   }
