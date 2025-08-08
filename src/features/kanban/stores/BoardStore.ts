@@ -2,8 +2,8 @@ import { makeAutoObservable } from "mobx"
 import { BoardSchema } from "../schemas"
 
 export class BoardStore {
-  // Object mapping columnId to array of taskIds (preserves order)
-  columnTasks: Record<string, string[]> = {}
+  // Map of columnId to array of taskIds (preserves order)
+  columnTasks: Map<string, string[]> = new Map()
 
   constructor() {
     makeAutoObservable(this)
@@ -23,17 +23,12 @@ export class BoardStore {
       this.removeTaskFromColumn(taskId, previousColumnId)
     }
 
-    // Ensure column exists in columnTasks
-    if (!this.columnTasks[columnId]) {
-      this.columnTasks[columnId] = []
-    }
-
     // Add to new column
-    const tasks = this.columnTasks[columnId]
+    const tasks = this.columnTasks.get(columnId) || []
     const insertPosition = position ?? tasks.length
 
     tasks.splice(insertPosition, 0, taskId)
-    this.columnTasks[columnId] = [...tasks] // Create new array to trigger reactivity
+    this.columnTasks.set(columnId, tasks)
   }
 
   // Remove a task from its column
@@ -41,10 +36,10 @@ export class BoardStore {
     const colId = columnId || this.getColumnForTask(taskId)
     if (!colId) return
 
-    const tasks = this.columnTasks[colId]
+    const tasks = this.columnTasks.get(colId)
     if (tasks) {
       const filtered = tasks.filter((id) => id !== taskId)
-      this.columnTasks[colId] = filtered
+      this.columnTasks.set(colId, filtered)
     }
   }
 
@@ -53,21 +48,28 @@ export class BoardStore {
     const sourceColumnId = this.getColumnForTask(taskId)
     if (!sourceColumnId) return
 
-    // Remove from source column
-    this.removeTaskFromColumn(taskId, sourceColumnId)
+    // Remove from source
+    const sourceTasks = this.columnTasks.get(sourceColumnId) || []
+    const sourceIndex = sourceTasks.indexOf(taskId)
+    if (sourceIndex === -1) return
 
-    // Add to target column at position
-    this.addTaskToColumn(taskId, targetColumnId, targetPosition)
+    sourceTasks.splice(sourceIndex, 1)
+    this.columnTasks.set(sourceColumnId, sourceTasks)
+
+    // Add to target
+    const targetTasks = this.columnTasks.get(targetColumnId) || []
+    targetTasks.splice(targetPosition, 0, taskId)
+    this.columnTasks.set(targetColumnId, targetTasks)
   }
 
   // Get all task IDs in a column (in order)
   getTaskIdsByColumn(columnId: string): string[] {
-    return this.columnTasks[columnId] || []
+    return this.columnTasks.get(columnId) || []
   }
 
   // Get the column ID for a task
   getColumnForTask(taskId: string): string | undefined {
-    for (const [columnId, taskIds] of Object.entries(this.columnTasks)) {
+    for (const [columnId, taskIds] of this.columnTasks) {
       if (taskIds.includes(taskId)) {
         return columnId
       }
@@ -76,8 +78,10 @@ export class BoardStore {
   }
 
   // Remove all tasks from a column (when column is deleted)
-  removeAllTasksFromColumn(columnId: string): void {
-    delete this.columnTasks[columnId]
+  removeAllTasksFromColumn(columnId: string): string[] {
+    const tasks = this.columnTasks.get(columnId) || []
+    this.columnTasks.delete(columnId)
+    return tasks
   }
 
   // Delete a task completely
@@ -90,13 +94,13 @@ export class BoardStore {
 
   // Get count of tasks in a column
   getTaskCountInColumn(columnId: string): number {
-    return (this.columnTasks[columnId] || []).length
+    return (this.columnTasks.get(columnId) || []).length
   }
 
   // Get all unassigned task IDs (tasks without a column)
   getUnassignedTaskIds(allTaskIds: string[]): string[] {
     const assignedTaskIds = new Set<string>()
-    for (const taskIds of Object.values(this.columnTasks)) {
+    for (const taskIds of this.columnTasks.values()) {
       taskIds.forEach((id) => assignedTaskIds.add(id))
     }
     return allTaskIds.filter((id) => !assignedTaskIds.has(id))

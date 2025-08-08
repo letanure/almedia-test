@@ -7,7 +7,9 @@ import type { StoreConstructor } from "@/types/shared"
 export class RootStore {
   // Explicitly typed stores
   todoStore!: InstanceType<NonNullable<typeof todoFeature.stores>[number]>
-  columnStore!: InstanceType<NonNullable<typeof kanbanFeature.stores>[number]>
+  columnStore!: InstanceType<NonNullable<typeof kanbanFeature.stores>[0]>
+  taskStore!: InstanceType<NonNullable<typeof kanbanFeature.stores>[1]>
+  boardStore!: InstanceType<NonNullable<typeof kanbanFeature.stores>[2]>
 
   constructor() {
     // Initialize stores from features
