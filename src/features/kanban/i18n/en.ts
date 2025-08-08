@@ -18,6 +18,7 @@ export const kanbanTranslations = {
     addTask: "Add task",
     editColumn: "Edit column",
     deleteColumn: "Delete column",
+    emptyColumn: "No tasks in this column",
     confirmDelete: "Delete Column",
     confirmDeleteMessage:
       "Are you sure you want to delete this column? All tasks in this column will be moved to 'To Do'.",
