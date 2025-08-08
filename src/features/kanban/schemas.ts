@@ -46,11 +46,20 @@ export type ColumnStoreData = z.infer<typeof ColumnStoreSchema>
 // TASK SCHEMAS
 // ============================================================================
 
+// Comment schema
+export const CommentSchema = z.object({
+  id: z.string().min(1, "validation.required"),
+  content: z.string().min(1, "validation.required").trim(),
+  createdAt: z.coerce.date(),
+  updatedAt: z.coerce.date().optional(),
+})
+
 // Task schema (independent of columns)
 export const TaskSchema = z.object({
   id: z.string().min(1, "validation.required"),
   title: z.string().min(1, "validation.required").trim(),
   description: z.string().optional(),
+  comments: z.array(CommentSchema).default([]),
   createdAt: z.coerce.date(),
   updatedAt: z.coerce.date().optional(),
 })
@@ -75,6 +84,15 @@ export const TaskFormSchema = z.object({
 export const TaskStoreSchema = z.object({
   tasks: z.array(TaskSchema),
 })
+
+// Comment form schema
+export const CommentFormSchema = z.object({
+  content: z.string().min(1, "validation.required").trim(),
+})
+
+// Inferred comment types
+export type Comment = z.infer<typeof CommentSchema>
+export type CommentFormData = z.infer<typeof CommentFormSchema>
 
 // Inferred task types
 export type Task = z.infer<typeof TaskSchema>

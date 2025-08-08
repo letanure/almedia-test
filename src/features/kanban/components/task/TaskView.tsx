@@ -1,19 +1,25 @@
 import { Edit, Trash2 } from "lucide-react"
 import { useTranslation } from "react-i18next"
 import { Button } from "@/components/ui/button"
+import type { Comment, CommentFormData } from "../../schemas"
+import { CommentList } from "../comments/CommentList"
 
 interface TaskViewProps {
   title: string
   description?: string
+  comments: Comment[]
   onEdit: () => void
   onDelete: () => void
+  onAddComment: (data: CommentFormData) => void
 }
 
 export const TaskView = ({
   title,
   description,
+  comments,
   onEdit,
   onDelete,
+  onAddComment,
 }: TaskViewProps) => {
   const { t } = useTranslation()
 
@@ -27,12 +33,9 @@ export const TaskView = ({
         )}
       </div>
 
-      {/* Future: Comments section would go here */}
+      {/* Comments section */}
       <div>
-        <h4 className="text-sm font-medium text-gray-500 mb-2">
-          {t("kanban.task.comments")}
-        </h4>
-        <p className="text-sm text-gray-400">{t("kanban.task.noComments")}</p>
+        <CommentList comments={comments} onAddComment={onAddComment} />
       </div>
 
       {/* Actions */}

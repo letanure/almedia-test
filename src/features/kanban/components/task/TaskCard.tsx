@@ -16,17 +16,25 @@ export const TaskCard = ({
   title,
   description,
 }: TaskCardProps) => {
-  const { openTaskModal, updateTask, handleDeleteTask } =
-    useTaskActions(columnId)
+  const {
+    openTaskModal,
+    updateTask,
+    handleDeleteTask,
+    addComment,
+    getTaskData,
+  } = useTaskActions(columnId)
 
   const handleClick = () => {
+    const task = getTaskData(taskId)
     openTaskModal(
       <TaskModal
         taskId={taskId}
         title={title}
         description={description}
+        comments={task?.comments || []}
         onUpdate={updateTask}
         onDelete={handleDeleteTask}
+        onAddComment={addComment}
       />,
     )
   }

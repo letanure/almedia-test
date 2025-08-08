@@ -1,5 +1,7 @@
 import { makeAutoObservable } from "mobx"
 import {
+  type Comment,
+  type CommentFormData,
   type CreateTask,
   type Task,
   TaskStoreSchema,
@@ -26,6 +28,7 @@ export class TaskStore {
       id: crypto.randomUUID(),
       title: data.title.trim(),
       description: data.description?.trim(),
+      comments: [],
       createdAt: new Date(),
     }
 
@@ -71,5 +74,43 @@ export class TaskStore {
 
   get allTasks(): Task[] {
     return this.tasks
+  }
+
+  // Comment methods
+  addComment(taskId: string, data: CommentFormData): Comment | undefined {
+    const task = this.getTaskById(taskId)
+    if (!task) return undefined
+
+    const comment: Comment = {
+      id: crypto.randomUUID(),
+      content: data.content.trim(),
+      createdAt: new Date(),
+    }
+
+    task.comments.push(comment)
+    return comment
+  }
+
+  updateComment(taskId: string, commentId: string, content: string): boolean {
+    const task = this.getTaskById(taskId)
+    if (!task) return false
+
+    const comment = task.comments.find((c) => c.id === commentId)
+    if (!comment) return false
+
+    comment.content = content.trim()
+    comment.updatedAt = new Date()
+    return true
+  }
+
+  deleteComment(taskId: string, commentId: string): boolean {
+    const task = this.getTaskById(taskId)
+    if (!task) return false
+
+    const commentIndex = task.comments.findIndex((c) => c.id === commentId)
+    if (commentIndex === -1) return false
+
+    task.comments.splice(commentIndex, 1)
+    return true
   }
 }
