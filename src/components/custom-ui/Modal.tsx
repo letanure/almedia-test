@@ -10,7 +10,7 @@ export interface ModalProps {
   children: React.ReactNode
   title?: string
   titleKey?: string
-  size?: "sm" | "md" | "lg" | "xl"
+  size?: "sm" | "md" | "lg" | "xl" | "xxl"
   closable?: boolean
   overlay?: boolean
 }
@@ -20,6 +20,7 @@ const sizeClasses = {
   md: "max-w-md",
   lg: "max-w-lg",
   xl: "max-w-xl",
+  xxl: "max-w-6xl",
 }
 
 export function Modal({
