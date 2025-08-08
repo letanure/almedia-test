@@ -52,6 +52,11 @@ export class ColumnStore {
     }
   }
 
+  reorderColumns(fromIndex: number, toIndex: number) {
+    const [movedColumn] = this.columns.splice(fromIndex, 1)
+    this.columns.splice(toIndex, 0, movedColumn)
+  }
+
   getColumnById(id: string): Column | undefined {
     return this.columns.find((c) => c.id === id)
   }

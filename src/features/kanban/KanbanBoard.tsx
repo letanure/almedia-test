@@ -4,51 +4,36 @@
  * Displays the kanban board with columns and provides column management
  */
 
+import { DndContext } from "@dnd-kit/core"
 import { observer } from "mobx-react-lite"
-import { useEffect, useRef, useState } from "react"
-import { Animated, AnimatedGroup } from "@/components/custom-ui/Animated"
 import { Container } from "@/components/custom-ui/Container"
-import { Flex } from "@/components/custom-ui/Flex"
 import { Stack } from "@/components/custom-ui/Stack"
 import { useStore } from "@/hooks/useStores"
-import { AddColumnForm } from "./components/AddColumnForm"
 import { BoardHeader } from "./components/BoardHeader"
-import { Column } from "./components/Column"
+import { ColumnsList } from "./components/ColumnsList"
+import { DraggedColumnOverlay } from "./components/DraggedColumnOverlay"
+import { useAddColumn } from "./hooks/useAddColumn"
+import { useColumnDragAndDrop } from "./hooks/useColumnDragAndDrop"
 
 export const KanbanBoard = observer(() => {
   const { columnStore } = useStore()
-  const [isAddingColumn, setIsAddingColumn] = useState(false)
-  const scrollContainerRef = useRef<HTMLDivElement>(null)
 
-  const handleAddColumn = (name: string) => {
-    columnStore.addColumn(name)
-    setIsAddingColumn(false)
-  }
+  const {
+    isAddingColumn,
+    shouldScroll,
+    scrollContainerRef,
+    handleAddColumn,
+    handleCancelAdd,
+    handleStartAddColumn,
+  } = useAddColumn()
 
-  const handleCancelAdd = () => {
-    setIsAddingColumn(false)
-  }
-
-  const handleStartAddColumn = () => {
-    setIsAddingColumn(true)
-  }
-
-  // Auto-scroll to show the add form when it appears
-  useEffect(() => {
-    if (isAddingColumn && scrollContainerRef.current) {
-      // Wait for animation to start, then scroll smoothly
-      setTimeout(() => {
-        scrollContainerRef.current?.scrollTo({
-          left: scrollContainerRef.current.scrollWidth,
-          behavior: "smooth",
-        })
-      }, 100)
-    }
-  }, [isAddingColumn])
-
-  // Determine if we should scroll (5+ total items including add form)
-  const totalItems = columnStore.totalColumns + (isAddingColumn ? 1 : 0)
-  const shouldScroll = totalItems > 4
+  const {
+    sensors,
+    draggedColumn,
+    handleDragStart,
+    handleDragEnd,
+    collisionDetection,
+  } = useColumnDragAndDrop()
 
   return (
     <Container size="full" padding="md">
@@ -59,40 +44,22 @@ export const KanbanBoard = observer(() => {
           disableAddButton={isAddingColumn}
         />
 
-        <Flex
-          ref={scrollContainerRef}
-          className={`gap-6 pb-4 ${shouldScroll ? "overflow-x-auto scroll-smooth" : "overflow-x-hidden"}`}
+        <DndContext
+          sensors={sensors}
+          collisionDetection={collisionDetection}
+          onDragStart={handleDragStart}
+          onDragEnd={handleDragEnd}
         >
-          <AnimatedGroup mode="sync">
-            {columnStore.columns.map((column) => (
-              <Animated
-                key={column.id}
-                in="slideUp"
-                out="slideLeft"
-                duration="fast"
-                layout
-                className="flex-shrink-0"
-              >
-                <Column
-                  column={column}
-                  onUpdateColumn={(id, name) =>
-                    columnStore.updateColumn(id, { name })
-                  }
-                  onDeleteColumn={(id) => columnStore.deleteColumn(id)}
-                />
-              </Animated>
-            ))}
-          </AnimatedGroup>
+          <ColumnsList
+            scrollContainerRef={scrollContainerRef}
+            shouldScroll={shouldScroll}
+            isAddingColumn={isAddingColumn}
+            onAddColumn={handleAddColumn}
+            onCancelAdd={handleCancelAdd}
+          />
 
-          {isAddingColumn && (
-            <Animated effect="fade" duration="fast" className="flex-shrink-0">
-              <AddColumnForm
-                onAdd={handleAddColumn}
-                onCancel={handleCancelAdd}
-              />
-            </Animated>
-          )}
-        </Flex>
+          <DraggedColumnOverlay draggedColumn={draggedColumn} />
+        </DndContext>
       </Stack>
     </Container>
   )

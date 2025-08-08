@@ -1,4 +1,4 @@
-import { MoreHorizontal, X } from "lucide-react"
+import { GripVertical, MoreHorizontal, X } from "lucide-react"
 import { useState } from "react"
 import { useTranslation } from "react-i18next"
 import { Flex } from "@/components/custom-ui/Flex"
@@ -17,12 +17,16 @@ interface ColumnHeaderProps {
   name: string
   onUpdate: (name: string) => void
   onDelete: () => void
+  dragHandleProps?: Record<string, unknown>
+  isDragging?: boolean
 }
 
 export const ColumnHeader = ({
   name,
   onUpdate,
   onDelete,
+  dragHandleProps,
+  isDragging,
 }: ColumnHeaderProps) => {
   const { t } = useTranslation()
   const modal = useModal()
@@ -76,9 +80,21 @@ export const ColumnHeader = ({
 
   return (
     <Flex justify="between" align="center">
-      <Text tag="h3" size="sm" weight="medium">
-        {name}
-      </Text>
+      <Flex align="center" className="gap-2 flex-1">
+        {dragHandleProps && (
+          <Button
+            variant="ghost"
+            size="sm"
+            className={`cursor-grab p-1 ${isDragging ? "cursor-grabbing opacity-50" : "hover:bg-muted"}`}
+            {...dragHandleProps}
+          >
+            <GripVertical className="h-4 w-4 text-muted-foreground" />
+          </Button>
+        )}
+        <Text tag="h3" size="sm" weight="medium" className="flex-1">
+          {name}
+        </Text>
+      </Flex>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant="ghost" size="sm">
