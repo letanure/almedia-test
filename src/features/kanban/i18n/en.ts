@@ -30,6 +30,8 @@ export const kanbanTranslations = {
     editTask: "Edit Task",
     deleteTask: "Delete Task",
     viewDetails: "View Details",
+    comments: "Comments",
+    noComments: "No comments yet",
     noTasks: "No tasks yet",
     dragHint: "Drag tasks to move between columns",
     confirmDeleteMessage:

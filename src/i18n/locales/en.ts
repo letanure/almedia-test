@@ -32,8 +32,8 @@ export const en = {
   common: {
     loading: "Loading...",
     save: "Save",
-    confirm: "Confirm",
     cancel: "Cancel",
+    confirm: "Confirm",
     delete: "Delete",
     confirmDelete: "Confirm Delete",
     confirmDeleteMessage:
