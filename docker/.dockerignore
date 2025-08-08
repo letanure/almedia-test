@@ -1,0 +1,58 @@
+# Dependencies
+node_modules
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Production build
+dist
+build
+
+# Development files
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# IDE files
+.vscode
+.idea
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Git
+.git
+.gitignore
+
+# Testing
+coverage
+.nyc_output
+
+# Storybook
+storybook-static
+
+# Playwright
+test-results
+playwright-report
+tests/e2e/.snapshots
+tests/e2e/.snapshots-ci
+
+# Documentation
+docs
+README.md
+*.md
+
+# GitHub
+.github
+
+# Husky
+.husky
+
+# Cache
+.cache
+.temp

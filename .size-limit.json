@@ -1,0 +1,14 @@
+[
+  {
+    "name": "App Bundle",
+    "path": "dist/assets/index-*.js",
+    "limit": "400 kB",
+    "gzip": true
+  },
+  {
+    "name": "CSS Bundle",
+    "path": "dist/assets/index-*.css",
+    "limit": "25 kB",
+    "gzip": true
+  }
+]
