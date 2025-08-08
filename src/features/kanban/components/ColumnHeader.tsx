@@ -1,4 +1,4 @@
-import { Edit, Trash2 } from "lucide-react"
+import { Edit, Plus, Trash2 } from "lucide-react"
 import { useTranslation } from "react-i18next"
 import { Button } from "@/components/ui/button"
 import { useModal } from "@/contexts/ModalContext"
@@ -42,10 +42,22 @@ export const ColumnHeader = ({ columnId, title }: ColumnHeaderProps) => {
     }
   }
 
+  const handleAddTask = () => {
+    // TODO: Add task functionality
+  }
+
   return (
     <div className="p-3 border-b border-gray-300 flex justify-between items-center group">
       <h3 className="font-medium">{title}</h3>
       <div className="flex gap-1">
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={handleAddTask}
+          className="h-6 w-6 p-0 opacity-0 group-hover:opacity-40 hover:opacity-100 transition-opacity"
+        >
+          <Plus className="h-3 w-3" />
+        </Button>
         <Button
           variant="ghost"
           size="sm"

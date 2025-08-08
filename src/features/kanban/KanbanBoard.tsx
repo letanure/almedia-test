@@ -1,7 +1,7 @@
 import { observer } from "mobx-react-lite"
 import { useStore } from "@/hooks/useStores"
-import { Column } from "./Column"
 import { BoardHeader } from "./components/BoardHeader"
+import { Column } from "./components/Column"
 
 export const KanbanBoard = observer(() => {
   const { columnStore } = useStore()
@@ -12,9 +12,7 @@ export const KanbanBoard = observer(() => {
 
       <div className="flex gap-4 overflow-x-auto pb-4">
         {columnStore.columns.map((column) => (
-          <Column key={column.id} columnId={column.id} title={column.name}>
-            <div>Tasks will go here</div>
-          </Column>
+          <Column key={column.id} columnId={column.id} title={column.name} />
         ))}
       </div>
     </div>
