@@ -26,6 +26,11 @@ export const FormFieldRenderer = memo(
       "tel",
       "url",
       "search",
+      "date",
+      "datetime-local",
+      "time",
+      "month",
+      "week",
     ].includes(field.type)
 
     if (needsControl) {

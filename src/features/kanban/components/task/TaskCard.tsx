@@ -5,6 +5,7 @@ import { useStore } from "@/hooks/useStores"
 import { useKeyboardNavigation } from "../../contexts/KeyboardNavigationContext"
 import { useTaskModal } from "../../contexts/TaskModalContext"
 import { useTaskActions } from "../../hooks/useTaskActions"
+import { TaskPriorityBadge } from "./TaskPriorityBadge"
 
 interface TaskCardProps {
   taskId: string
@@ -61,14 +62,40 @@ export const TaskCard = observer(
           {/* Card content */}
           <button
             type="button"
-            className="w-full p-2 pl-6 pr-8 transition-colors text-left"
+            className="w-full transition-colors text-left flex flex-col h-full"
             onClick={handleClick}
           >
-            <div className="text-sm">{title}</div>
-            {commentCount > 0 && (
-              <div className="flex items-center text-xs text-gray-500 mt-1">
-                <MessageCircle className="h-3 w-3 mr-1" />
-                <span>{commentCount}</span>
+            {/* Main content area */}
+            <div className="p-2 pl-6 pr-8 flex-1">
+              <div className="text-sm font-medium leading-relaxed">{title}</div>
+            </div>
+
+            {/* Bottom section with separator */}
+            {(commentCount > 0 || task) && (
+              <div className="border-t border-gray-100 px-2 py-1.5 pl-6 pr-8 bg-gray-50/50">
+                <div className="flex items-center justify-between">
+                  {/* Left side - Comments */}
+                  <div className="flex items-center">
+                    {commentCount > 0 && (
+                      <div className="flex items-center text-xs text-gray-500">
+                        <MessageCircle className="h-3 w-3 mr-1" />
+                        <span>{commentCount}</span>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Right side - Priority badges */}
+                  {task && (
+                    <div className="flex items-center">
+                      <TaskPriorityBadge
+                        importance={task.importance}
+                        urgency={task.urgency}
+                        dueDate={task.dueDate}
+                        discrete={false}
+                      />
+                    </div>
+                  )}
+                </div>
               </div>
             )}
           </button>
