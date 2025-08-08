@@ -9,8 +9,8 @@ export const en = {
   todo: todoFeature.translations?.en,
   demo: demoFeature.translations?.en,
   app: {
-    name: "Project Starter",
-    subtitle: "React + MobX + TypeScript",
+    name: "Almedia Kanban",
+    subtitle: "Task Management Board",
   },
   theme: {
     toggle: "Toggle theme",

@@ -1,14 +1,14 @@
-# React Starter Kit
+# Almedia Kanban Board
 
-A modern React + TypeScript starter with batteries included. Pre-configured tooling, component library, and example implementations to help you start building immediately.
+A modern Kanban board application built with React + TypeScript. Features drag-and-drop task management and a clean, responsive interface.
 
 ## Live Preview
 
-**[View Live Demo](https://react-mobx-starter-eight.vercel.app/)** - Deployed on Vercel
+**[View Live Demo](https://almedia-test.vercel.app/)** - Deployed on Vercel
 
-![Todo App Demo](./docs/assets/todo-app-demo-desktop.gif)
+![Kanban Board Demo](./docs/assets/todo-app-demo-desktop.gif)
 
-*Interactive demo showing the complete user flow: adding todos, marking as complete, and viewing statistics.*
+_Interactive demo showing the complete kanban workflow: creating tasks, moving between columns, and project management._
 
 ## Quick Start
 
@@ -50,6 +50,7 @@ src/
 ## Key Features
 
 ### Feature-Based Architecture
+
 Each feature is self-contained with its own components, state, and routes:
 
 ```typescript
@@ -62,6 +63,7 @@ features/my-feature/
 ```
 
 ### Schema-First Development
+
 Types derived from Zod validation schemas:
 
 ```typescript
@@ -69,15 +71,17 @@ Types derived from Zod validation schemas:
 export const TodoSchema = z.object({
   id: z.string().min(1),
   text: z.string().min(1).trim(),
-  completed: z.boolean()
-})
+  completed: z.boolean(),
+});
 
 // types.ts
-export type Todo = z.infer<typeof TodoSchema>
+export type Todo = z.infer<typeof TodoSchema>;
 ```
 
 ### Dynamic Form Builder
+
 Powerful form generation with validation:
+
 - All field types included
 - Zod schema integration
 - Field arrays and nested forms
@@ -85,15 +89,15 @@ Powerful form generation with validation:
 
 ## Commands
 
-| Command | Description |
-|---------|-------------|
-| `pnpm dev` | Start development server |
-| `pnpm build` | Build for production |
-| `pnpm test` | Run unit tests |
-| `pnpm test:e2e` | Run E2E tests |
-| `pnpm storybook` | Start Storybook |
-| `pnpm lint` | Run linter |
-| `pnpm type:check` | Check TypeScript |
+| Command           | Description              |
+| ----------------- | ------------------------ |
+| `pnpm dev`        | Start development server |
+| `pnpm build`      | Build for production     |
+| `pnpm test`       | Run unit tests           |
+| `pnpm test:e2e`   | Run E2E tests            |
+| `pnpm storybook`  | Start Storybook          |
+| `pnpm lint`       | Run linter               |
+| `pnpm type:check` | Check TypeScript         |
 
 [View all commands →](CONTRIBUTING.md#scripts-reference)
 
@@ -106,16 +110,17 @@ pnpm docker:prod      # Production build
 
 ## Documentation
 
-| Guide | Description |
-|-------|-------------|
-| [**Contributing**](CONTRIBUTING.md) | Development setup, workflows, code quality |
+| Guide                                    | Description                                |
+| ---------------------------------------- | ------------------------------------------ |
+| [**Contributing**](CONTRIBUTING.md)      | Development setup, workflows, code quality |
 | [**Architecture**](docs/ARCHITECTURE.md) | System design, patterns, project structure |
-| [**Testing**](docs/TESTING.md) | Unit, E2E, visual regression strategies |
-| [**Deployment**](docs/DEPLOYMENT.md) | CI/CD, Docker, production deployment |
+| [**Testing**](docs/TESTING.md)           | Unit, E2E, visual regression strategies    |
+| [**Deployment**](docs/DEPLOYMENT.md)     | CI/CD, Docker, production deployment       |
 
 ## Getting Started
 
 ### 1. Create a New Feature
+
 ```bash
 # Create feature folder
 mkdir src/features/my-feature
@@ -126,6 +131,7 @@ touch index.ts Component.tsx routes.ts schemas.ts
 ```
 
 ### 2. Add UI Components
+
 ```bash
 # Add shadcn components
 npx shadcn@latest add button card
@@ -135,6 +141,7 @@ ls src/components/ui/
 ```
 
 ### 3. Explore Examples
+
 - **Todo App** - Complete CRUD with MobX state
 - **API Demo** - External API integration
 - **Form Builder** - Dynamic form generation
