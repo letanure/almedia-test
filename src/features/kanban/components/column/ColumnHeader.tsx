@@ -1,8 +1,7 @@
 import { Edit, Plus, Trash2 } from "lucide-react"
-import { useTranslation } from "react-i18next"
 import { Button } from "@/components/ui/button"
-import { useModal } from "@/contexts/ModalContext"
-import { useStore } from "@/hooks/useStores"
+import { useColumnActions } from "../../hooks/useColumnActions"
+import { useTaskActions } from "../../hooks/useTaskActions"
 import { ColumnForm } from "./ColumnForm"
 
 interface ColumnHeaderProps {
@@ -11,39 +10,20 @@ interface ColumnHeaderProps {
 }
 
 export const ColumnHeader = ({ columnId, title }: ColumnHeaderProps) => {
-  const { t } = useTranslation()
-  const modal = useModal()
-  const { columnStore } = useStore()
+  const { openEditModal, updateColumn, handleDelete } = useColumnActions(
+    columnId,
+    title,
+  )
+  const { openAddTaskModal } = useTaskActions(columnId)
 
   const handleEdit = () => {
-    modal.openForm(
-      "edit-column",
-      <ColumnForm
-        initialData={{ name: title }}
-        onSubmit={(name) => {
-          columnStore.updateColumn(columnId, { name })
-          modal.close("edit-column")
-        }}
-      />,
-      {
-        title: t("kanban.column.editColumn"),
-        size: "md",
-      },
+    openEditModal(
+      <ColumnForm initialData={{ name: title }} onSubmit={updateColumn} />,
     )
   }
 
-  const handleDelete = async () => {
-    const confirmed = await modal.confirmDelete({
-      message: t("kanban.column.confirmDeleteMessage", { name: title }),
-    })
-
-    if (confirmed) {
-      columnStore.deleteColumn(columnId)
-    }
-  }
-
   const handleAddTask = () => {
-    // TODO: Add task functionality
+    openAddTaskModal(<div>Task Form Placeholder</div>)
   }
 
   return (

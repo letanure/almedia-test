@@ -2,7 +2,7 @@ import { useTranslation } from "react-i18next"
 import { Button } from "@/components/ui/button"
 import { useModal } from "@/contexts/ModalContext"
 import { useStore } from "@/hooks/useStores"
-import { ColumnForm } from "./ColumnForm"
+import { ColumnForm } from "./column/ColumnForm"
 
 export const BoardHeader = () => {
   const { t } = useTranslation()

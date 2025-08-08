@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next"
 import { FormBuilder } from "@/components/custom-ui/FormBuilder/FormBuilder"
 import type { FormFieldConfig } from "@/components/custom-ui/FormBuilder/types"
-import { type ColumnFormData, ColumnFormSchema } from "../schemas"
+import { type ColumnFormData, ColumnFormSchema } from "../../schemas"
 
 interface ColumnFormProps {
   onSubmit: (name: string) => void
