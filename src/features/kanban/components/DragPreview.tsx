@@ -5,6 +5,7 @@ interface DragPreviewProps {
   activeTask: {
     id: string
     title: string
+    description?: string
     columnId: string
   } | null
 }
@@ -19,6 +20,7 @@ export const DragPreview = ({ activeTask }: DragPreviewProps) => {
             taskId={activeTask.id}
             columnId={activeTask.columnId}
             title={activeTask.title}
+            description={activeTask.description}
           />
         </div>
       )}

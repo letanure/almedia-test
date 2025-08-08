@@ -19,7 +19,7 @@ export const Column = ({ columnId, title, children }: ColumnProps) => {
   }
 
   return (
-    <div className="h-full border rounded-lg flex flex-col group border-gray-300 hover:border-gray-400 transition-colors">
+    <div className="h-full border rounded-lg flex flex-col group border-gray-300 hover:border-gray-400 transition-colors min-w-0">
       <ColumnHeader columnId={columnId} title={title} />
       <div className="flex-1 p-3">{children}</div>
       <div className="p-3 pt-0">
