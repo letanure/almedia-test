@@ -36,28 +36,17 @@ export class ColumnStore {
   }
 
   updateColumn(id: string, data: Partial<UpdateColumn>) {
-    const columnIndex = this.columns.findIndex((c) => c.id === id)
-    if (columnIndex > -1) {
-      const column = this.columns[columnIndex]
-      if (!column) return
+    const existingColumn = this.columns.find((c) => c.id === id)
+    if (!existingColumn) return
 
-      if (data.name !== undefined) {
-        // Create a new column object to ensure MobX detects the change
-        this.columns[columnIndex] = {
-          id: column.id,
-          name: data.name.trim(),
-          createdAt: column.createdAt,
-          updatedAt: new Date(),
-        }
-      } else {
-        // Only update updatedAt
-        this.columns[columnIndex] = {
-          id: column.id,
-          name: column.name,
-          createdAt: column.createdAt,
-          updatedAt: new Date(),
-        }
-      }
+    const columnIndex = this.columns.findIndex((c) => c.id === id)
+
+    // Create a new column object to ensure MobX detects the change
+    this.columns[columnIndex] = {
+      id: existingColumn.id,
+      name: data.name?.trim() ?? existingColumn.name,
+      createdAt: existingColumn.createdAt,
+      updatedAt: new Date(),
     }
   }
 
