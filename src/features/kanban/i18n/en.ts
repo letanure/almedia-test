@@ -45,4 +45,32 @@ export const kanbanTranslations = {
     noComments: "No comments yet",
     placeholder: "Write a comment...",
   },
+  shortcuts: {
+    title: "Keyboard Shortcuts",
+    hint: "Press ? for keyboard shortcuts",
+    categories: {
+      navigation: "Navigation",
+      task: "Task Actions",
+      help: "Help",
+    },
+    navigation: {
+      tab: "Select first task / Navigate to next task",
+      previousTask: "Navigate to previous task",
+      nextTask: "Navigate to next task",
+      previousColumn: "Navigate to previous column",
+      nextColumn: "Navigate to next column",
+      clearSelection: "Clear selection",
+    },
+    task: {
+      open: "Open selected task",
+      delete: "Delete selected task",
+      moveLeft: "Move task to previous column",
+      moveRight: "Move task to next column",
+      moveUp: "Move task up in column",
+      moveDown: "Move task down in column",
+    },
+    help: {
+      show: "Show keyboard shortcuts",
+    },
+  },
 }
