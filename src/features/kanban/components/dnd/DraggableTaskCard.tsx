@@ -6,14 +6,12 @@ interface DraggableTaskCardProps {
   taskId: string
   columnId: string
   title: string
-  description?: string
 }
 
 export const DraggableTaskCard = ({
   taskId,
   columnId,
   title,
-  description,
 }: DraggableTaskCardProps) => {
   const {
     attributes,
@@ -27,7 +25,7 @@ export const DraggableTaskCard = ({
     id: taskId,
     data: {
       type: "task",
-      task: { id: taskId, columnId, title, description },
+      task: { id: taskId, columnId, title },
     },
   })
 
@@ -51,7 +49,6 @@ export const DraggableTaskCard = ({
             taskId={taskId}
             columnId={columnId}
             title={title}
-            description={description}
             dragListeners={listeners}
           />
         </div>

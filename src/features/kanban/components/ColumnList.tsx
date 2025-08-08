@@ -45,7 +45,6 @@ export const ColumnList = observer(
                         taskId={task.id}
                         columnId={column.id}
                         title={task.title}
-                        description={task.description}
                       />
                     ))
                   : !activeTaskId && (
