@@ -1,5 +1,24 @@
 # Almedia Kanban Board
 
+## Project Overview
+
+This is a test project implementing a feature-complete Kanban board with task prioritization. Started, paused, continued with better organization - rebuilt components while keeping store architecture.
+
+**Required Features Implemented:**
+- [x] Dynamic columns (add/rename/delete columns, starts with To Do/In Progress/Done)
+- [x] Task cards (add/edit/delete tasks with title and description)  
+- [x] Task details & comments (modal view with add/edit/delete comments)
+- [x] Drag and drop (move tasks between columns and reorder within columns)
+- [x] Data persistence (localStorage with schema validation)
+
+**Additional Features:** Task priority system with Eisenhower Matrix, keyboard shortcuts, responsive design, scroll indicators.
+
+**Architecture:** Three-store pattern - TaskStore (task data), ColumnStore (column management), BoardStore (task-column relationships). Built using React + TypeScript template with CI, quality gates, and MobX state management.
+
+**Review Focus:** Implementation located in `src/features/kanban` - contains complete feature architecture, components, hooks, and stores.
+
+---
+
 A modern Kanban board application built with React + TypeScript. Features drag-and-drop task management and a clean, responsive interface.
 
 ## Live Preview
