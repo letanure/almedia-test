@@ -7,12 +7,14 @@ interface CommentFormProps {
   onSubmit: (data: CommentFormData) => void
   onCancel?: () => void
   placeholder?: string
+  defaultValue?: string
 }
 
 export const CommentForm = ({
   onSubmit,
   onCancel,
   placeholder,
+  defaultValue,
 }: CommentFormProps) => {
   const { t } = useTranslation()
 
@@ -34,7 +36,7 @@ export const CommentForm = ({
     <FormBuilder
       fields={fields}
       schema={CommentFormSchema}
-      defaultValues={{ content: "" }}
+      defaultValues={{ content: defaultValue || "" }}
       onSubmit={handleSubmit}
       onCancel={onCancel}
       submitLabel={t("kanban.comments.addComment")}

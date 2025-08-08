@@ -13,10 +13,23 @@ interface TaskModalProps {
   ) => void
   onDelete: (taskId: string, taskTitle: string) => void
   onAddComment: (taskId: string, data: CommentFormData) => void
+  onEditComment: (
+    taskId: string,
+    commentId: string,
+    data: CommentFormData,
+  ) => void
+  onDeleteComment: (taskId: string, commentId: string) => void
 }
 
 export const TaskModal = observer(
-  ({ taskId, onUpdate, onDelete, onAddComment }: TaskModalProps) => {
+  ({
+    taskId,
+    onUpdate,
+    onDelete,
+    onAddComment,
+    onEditComment,
+    onDeleteComment,
+  }: TaskModalProps) => {
     const [isEditing, setIsEditing] = useState(false)
     const { taskStore } = useStore()
 
@@ -50,6 +63,14 @@ export const TaskModal = observer(
       onAddComment(taskId, data)
     }
 
+    const handleEditComment = (commentId: string, data: CommentFormData) => {
+      onEditComment(taskId, commentId, data)
+    }
+
+    const handleDeleteComment = (commentId: string) => {
+      onDeleteComment(taskId, commentId)
+    }
+
     if (isEditing) {
       return (
         <TaskForm
@@ -68,6 +89,8 @@ export const TaskModal = observer(
         onEdit={handleEdit}
         onDelete={handleDelete}
         onAddComment={handleAddComment}
+        onEditComment={handleEditComment}
+        onDeleteComment={handleDeleteComment}
       />
     )
   },

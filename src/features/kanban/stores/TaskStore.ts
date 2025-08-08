@@ -60,7 +60,14 @@ export class TaskStore {
   }
 
   getTaskById(id: string): Task | undefined {
-    return this.tasks.find((task) => task.id === id)
+    const task = this.tasks.find((task) => task.id === id)
+    if (!task) return undefined
+
+    // Return task with only active (non-deleted) comments
+    return {
+      ...task,
+      comments: task.comments.filter((comment) => !comment.deletedAt),
+    }
   }
 
   getTasksByIds(ids: string[]): Task[] {
@@ -79,7 +86,7 @@ export class TaskStore {
 
   // Comment methods
   addComment(taskId: string, data: CommentFormData): void {
-    const task = this.getTaskById(taskId)
+    const task = this.tasks.find((task) => task.id === taskId) // Get raw task, not filtered
     if (!task) return
 
     const comment: Comment = {
@@ -92,7 +99,7 @@ export class TaskStore {
   }
 
   updateComment(taskId: string, commentId: string, content: string): void {
-    const task = this.getTaskById(taskId)
+    const task = this.tasks.find((task) => task.id === taskId) // Get raw task, not filtered
     if (!task) return
 
     const comment = task.comments.find((c) => c.id === commentId)
@@ -103,12 +110,13 @@ export class TaskStore {
   }
 
   deleteComment(taskId: string, commentId: string): void {
-    const task = this.getTaskById(taskId)
+    const task = this.tasks.find((task) => task.id === taskId) // Get raw task, not filtered
     if (!task) return
 
-    const commentIndex = task.comments.findIndex((c) => c.id === commentId)
-    if (commentIndex === -1) return
+    const comment = task.comments.find((c) => c.id === commentId)
+    if (!comment) return
 
-    task.comments.splice(commentIndex, 1)
+    // Soft delete - set deletedAt timestamp
+    comment.deletedAt = new Date()
   }
 }
