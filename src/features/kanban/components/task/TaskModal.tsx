@@ -2,6 +2,7 @@ import { observer } from "mobx-react-lite"
 import { useState } from "react"
 import { useStore } from "@/hooks/useStores"
 import { useTaskModalActions } from "../../hooks/useTaskModalActions"
+import type { TaskFormData } from "../../schemas"
 import { TaskForm } from "./TaskForm"
 import { TaskView } from "./TaskView"
 
@@ -17,7 +18,7 @@ export const TaskModal = observer(({ taskId }: TaskModalProps) => {
   const task = taskStore.getTaskById(taskId)
   if (!task) return null
 
-  const { title, description } = task
+  const { title, description, dueDate, importance, urgency } = task
   const comments = task.comments || []
 
   // Force MobX to track comments by accessing length
@@ -27,7 +28,7 @@ export const TaskModal = observer(({ taskId }: TaskModalProps) => {
     setIsEditing(true)
   }
 
-  const handleSave = (data: { title: string; description?: string }) => {
+  const handleSave = (data: TaskFormData) => {
     handleUpdateTask(taskId, data)
     setIsEditing(false)
   }
@@ -43,7 +44,7 @@ export const TaskModal = observer(({ taskId }: TaskModalProps) => {
   if (isEditing) {
     return (
       <TaskForm
-        initialData={{ title, description }}
+        initialData={{ title, description, dueDate, importance, urgency }}
         onSubmit={handleSave}
         onCancel={handleCancel}
       />

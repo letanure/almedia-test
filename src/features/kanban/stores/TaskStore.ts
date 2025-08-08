@@ -29,6 +29,9 @@ export class TaskStore {
       id,
       title: data.title.trim(),
       description: data.description?.trim(),
+      dueDate: data.dueDate,
+      importance: data.importance || "low",
+      urgency: data.urgency || "low",
       comments: [],
       createdAt: new Date(),
     }
@@ -46,6 +49,9 @@ export class TaskStore {
       ...task,
       title: data.title?.trim() ?? task.title,
       description: data.description?.trim() ?? task.description,
+      dueDate: data.dueDate ?? task.dueDate,
+      importance: data.importance ?? task.importance,
+      urgency: data.urgency ?? task.urgency,
       updatedAt: new Date(),
     }
 
