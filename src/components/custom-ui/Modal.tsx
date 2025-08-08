@@ -13,6 +13,8 @@ export interface ModalProps {
   size?: "sm" | "md" | "lg" | "xl" | "xxl"
   closable?: boolean
   overlay?: boolean
+  maxHeight?: string
+  maxWidth?: string
 }
 
 const sizeClasses = {
@@ -32,6 +34,8 @@ export function Modal({
   size = "md",
   closable = true,
   overlay = true,
+  maxHeight,
+  maxWidth,
 }: ModalProps) {
   const { t } = useTranslation()
 
@@ -72,10 +76,14 @@ export function Modal({
             <Animated
               effect="scale"
               transformOrigin="center"
-              className={`relative bg-background border rounded-lg shadow-lg w-full pointer-events-auto ${sizeClasses[size]}`}
+              className={`relative bg-background border rounded-lg shadow-lg w-full pointer-events-auto ${sizeClasses[size]} ${maxHeight ? "flex flex-col" : ""}`}
               onClick={(e) => e.stopPropagation()}
               role="dialog"
               aria-modal="true"
+              style={{
+                ...(maxHeight && { maxHeight }),
+                ...(maxWidth && { maxWidth }),
+              }}
             >
               {(displayTitle || closable) && (
                 <div className="flex items-center justify-between p-6 pb-2">
@@ -94,7 +102,11 @@ export function Modal({
                   )}
                 </div>
               )}
-              <div className="p-6 pt-2">{children}</div>
+              <div
+                className={`p-6 pt-2 ${maxHeight ? "overflow-y-auto min-h-0 flex-1" : ""}`}
+              >
+                {children}
+              </div>
             </Animated>
           </div>
         )}
