@@ -139,6 +139,7 @@ export const keyboardShortcuts: KeyboardShortcut[] = [
     action: "SHOW_HELP",
     category: "help",
     descriptionKey: "kanban.shortcuts.help.show",
+    withShift: true,
   },
 ]
 
