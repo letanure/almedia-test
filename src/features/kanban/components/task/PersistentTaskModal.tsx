@@ -13,7 +13,7 @@ export const PersistentTaskModal = observer(() => {
     handleEditComment,
     handleDeleteComment,
     handleReplyComment,
-  } = useTaskModalActions()
+  } = useTaskModalActions(taskId || "")
 
   if (!taskId || !isOpen) return null
 

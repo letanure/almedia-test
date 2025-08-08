@@ -3,16 +3,19 @@ import { useModal } from "@/contexts/ModalContext"
 import { useStore } from "@/hooks/useStores"
 import { useTaskModal } from "../contexts/TaskModalContext"
 import type { CommentFormData } from "../schemas"
+import { useCommentActions } from "./useCommentActions"
 
 /**
  * Hook that centralizes all task modal operations
  * Eliminates duplicate logic between useTaskActions and PersistentTaskModal
  */
-export const useTaskModalActions = () => {
+export const useTaskModalActions = (taskId: string) => {
   const { t } = useTranslation()
   const modal = useModal()
   const { taskStore, boardStore } = useStore()
   const { closeModal } = useTaskModal()
+  const { addComment, editComment, deleteComment, replyToComment } =
+    useCommentActions(taskId)
 
   /**
    * Update task and close modal
@@ -43,37 +46,37 @@ export const useTaskModalActions = () => {
   /**
    * Add comment to task
    */
-  const handleAddComment = (taskId: string, data: CommentFormData) => {
-    taskStore.addComment(taskId, data)
+  const handleAddComment = (_taskId: string, data: CommentFormData) => {
+    addComment(data)
   }
 
   /**
    * Edit existing comment
    */
   const handleEditComment = (
-    taskId: string,
+    _taskId: string,
     commentId: string,
     data: CommentFormData,
   ) => {
-    taskStore.updateComment(taskId, commentId, data.content)
+    editComment(commentId, data)
   }
 
   /**
    * Delete comment
    */
-  const handleDeleteComment = (taskId: string, commentId: string) => {
-    taskStore.deleteComment(taskId, commentId)
+  const handleDeleteComment = (_taskId: string, commentId: string) => {
+    deleteComment(commentId)
   }
 
   /**
    * Reply to comment
    */
   const handleReplyComment = (
-    taskId: string,
+    _taskId: string,
     parentId: string,
     data: CommentFormData,
   ) => {
-    taskStore.addReply(taskId, parentId, data)
+    replyToComment(parentId, data)
   }
 
   return {
