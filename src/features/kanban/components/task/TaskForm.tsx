@@ -1,116 +1,60 @@
+import { useEffect } from "react"
 import { useTranslation } from "react-i18next"
-import { FormBuilder } from "@/components/custom-ui/FormBuilder/FormBuilder"
-import type { FormFieldConfig } from "@/components/custom-ui/FormBuilder/types"
+import { FormBuilder } from "@/components/custom-ui/FormBuilder"
+import { Stack } from "@/components/custom-ui/Stack"
 import { Button } from "@/components/ui/button"
 import { type TaskFormData, TaskFormSchema } from "../../schemas"
 
-// Helper function to format Date for HTML date input (YYYY-MM-DD)
-const formatDateForInput = (date: Date | undefined): string | undefined => {
-  if (!date) return undefined
-  return date.toISOString().split("T")[0]
-}
-
 interface TaskFormProps {
   onSubmit: (data: TaskFormData) => void
-  onCancel?: () => void
-  onDelete?: () => void
+  onCancel: () => void
   initialData?: TaskFormData
 }
 
-export const TaskForm = ({
-  onSubmit,
-  onCancel,
-  onDelete,
-  initialData,
-}: TaskFormProps) => {
+export function TaskForm({ onSubmit, onCancel, initialData }: TaskFormProps) {
   const { t } = useTranslation()
 
-  const fields: FormFieldConfig[] = [
-    {
-      type: "text",
-      name: "title",
-      label: t("kanban.task.title"),
-      placeholder: "Enter task title...",
-      autoComplete: "off",
-      layout: "full",
-    },
-    {
-      type: "textarea",
-      name: "description",
-      label: t("kanban.task.description"),
-      placeholder: "Add a more detailed description...",
-      autoComplete: "off",
-      layout: "full",
-      rows: 4,
-    },
-    {
-      type: "date",
-      name: "dueDate",
-      label: "Due Date",
-      placeholder: "Select due date",
-      layout: "full",
-    },
-    {
-      type: "select",
-      name: "importance",
-      label: "Importance",
-      placeholder: "Select importance",
-      layout: "half",
-      options: [
-        { value: "low", label: "Low" },
-        { value: "high", label: "High" },
-      ],
-    },
-    {
-      type: "select",
-      name: "urgency",
-      label: "Urgency",
-      placeholder: "Select urgency",
-      layout: "half",
-      options: [
-        { value: "low", label: "Low" },
-        { value: "high", label: "High" },
-      ],
-    },
-  ]
-
-  const handleSubmit = async (data: TaskFormData) => {
-    onSubmit(data)
-  }
+  // Auto-focus first field with delay for modal animation
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      const firstInput = document.querySelector(
+        'input[name="title"]',
+      ) as HTMLInputElement
+      if (firstInput) {
+        firstInput.focus()
+      }
+    }, 300)
+    return () => clearTimeout(timer)
+  }, [])
 
   return (
-    <div data-testid="task-form">
+    <Stack spacing="md">
       <FormBuilder
-        fields={fields}
+        fields={[
+          {
+            name: "title",
+            type: "text",
+            label: t("kanban.task.title"),
+            placeholder: t("kanban.task.title"),
+            layout: "full",
+          },
+          {
+            name: "description",
+            type: "textarea",
+            label: t("kanban.task.description"),
+            placeholder: t("kanban.task.description"),
+            layout: "full",
+            rows: 4,
+          },
+        ]}
         schema={TaskFormSchema}
-        defaultValues={{
-          title: initialData?.title || "",
-          description: initialData?.description || "",
-          dueDate: formatDateForInput(initialData?.dueDate) as any,
-          importance: initialData?.importance || "low",
-          urgency: initialData?.urgency || "low",
-        }}
-        onSubmit={handleSubmit}
+        onSubmit={onSubmit}
+        defaultValues={initialData}
         submitLabel={initialData ? t("common.save") : t("kanban.task.addTask")}
-        resetLabel={onCancel ? t("common.cancel") : ""}
-        showReset={!!onCancel}
-        resetAfterSubmit={!initialData}
-        translateMessage={t}
       />
-      {onCancel && (
-        <div className="mt-4">
-          <Button variant="outline" onClick={onCancel} className="w-full">
-            {t("common.cancel")}
-          </Button>
-        </div>
-      )}
-      {initialData && onDelete && (
-        <div className="mt-4 pt-4 border-t">
-          <Button variant="destructive" onClick={onDelete} className="w-full">
-            {t("kanban.task.deleteTask")}
-          </Button>
-        </div>
-      )}
-    </div>
+      <Button variant="outline" onClick={onCancel} className="w-full">
+        {t("common.cancel")}
+      </Button>
+    </Stack>
   )
 }
