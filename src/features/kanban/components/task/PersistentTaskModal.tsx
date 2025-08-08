@@ -51,6 +51,14 @@ export const PersistentTaskModal = observer(() => {
     taskStore.deleteComment(taskId, commentId)
   }
 
+  const handleReplyComment = (
+    taskId: string,
+    parentId: string,
+    data: CommentFormData,
+  ) => {
+    taskStore.addReply(taskId, parentId, data)
+  }
+
   return (
     <Modal isOpen={isOpen} onClose={closeModal} title="Task Details" size="md">
       <TaskModal
@@ -60,6 +68,7 @@ export const PersistentTaskModal = observer(() => {
         onAddComment={handleAddComment}
         onEditComment={handleEditComment}
         onDeleteComment={handleDeleteComment}
+        onReplyComment={handleReplyComment}
       />
     </Modal>
   )
