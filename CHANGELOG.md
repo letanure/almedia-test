@@ -1,3 +1,52 @@
+# 1.0.0 (2025-08-09)
+
+
+### Bug Fixes
+
+* column name persistence to localStorage ([9078254](https://github.com/letanure/almedia-test/commit/90782541dcfab982e6647baee9ee496144baa32b))
+* help modal shortcut key ([745ea81](https://github.com/letanure/almedia-test/commit/745ea81a3738725fde1582527a812fd78cdcfd38))
+* improve store data structures ([38dfe63](https://github.com/letanure/almedia-test/commit/38dfe63029b46c3ba7c09c4c87f5ec6f6d496c99))
+* keyboard shortcuts state ([158468c](https://github.com/letanure/almedia-test/commit/158468c020c6f1cce95909cb22f6c7f1fa1c7ccd))
+* resolve TypeScript and linting errors for Column components and TaskList ([64f7f9b](https://github.com/letanure/almedia-test/commit/64f7f9bc52e184923a42a2ac897c264811db57c3))
+* resolve TypeScript errors in TaskForm and TaskList ([1c41f6e](https://github.com/letanure/almedia-test/commit/1c41f6e3b0f6bfe750228319fce302cf0ed22b07))
+* restrict drag to handle ([6a93d1a](https://github.com/letanure/almedia-test/commit/6a93d1a806a04c84f64a60d4546eaee33961f004))
+* task comments display ([eb07a1c](https://github.com/letanure/almedia-test/commit/eb07a1cb3bd9975cd8ad23f4ec4a91187bd16924))
+* TaskForm date type issue ([dd80902](https://github.com/letanure/almedia-test/commit/dd80902067672b8e020fcf2359f6bd8a6645c803))
+* TypeScript errors in forms ([7edabdd](https://github.com/letanure/almedia-test/commit/7edabddeb3fecdf4f6bbec81db27a26c669e4e2e))
+* use desktop snapshots for GIF ([b9ce2ca](https://github.com/letanure/almedia-test/commit/b9ce2ca7f23c87876516313b05917523a4d1338d))
+
+
+### Features
+
+* add column delete with confirmation ([0babfb7](https://github.com/letanure/almedia-test/commit/0babfb759dc4c39562284a2e19354dbbfad46702))
+* add column management ([7028311](https://github.com/letanure/almedia-test/commit/70283112d08c5d979e529912328dd1fb8ea84488))
+* add comment CRUD operations ([700cdee](https://github.com/letanure/almedia-test/commit/700cdee73ea4b6b00bcaaebcbda25b9d1447cb6d))
+* add comment replies ([edb3136](https://github.com/letanure/almedia-test/commit/edb31368882348431eb805e729e3f84398c730f0))
+* add Eisenhower Matrix priorities ([254139c](https://github.com/letanure/almedia-test/commit/254139c842316d0084ebcfbd4d4e014283454b4d))
+* add kanban feature structure ([0a3fc88](https://github.com/letanure/almedia-test/commit/0a3fc888b0d3778d945d81614a3a3300b7f730d1))
+* add keyboard shortcuts config ([7a25985](https://github.com/letanure/almedia-test/commit/7a25985b746618bf799e2e754208637412dcdf40))
+* add mobile responsive columns ([deaeaf3](https://github.com/letanure/almedia-test/commit/deaeaf3c9b78567846364cc8257804abf5e1932b))
+* add real-time comments ([0081f87](https://github.com/letanure/almedia-test/commit/0081f87f2e6f2d33f33cf7590e363e03ff3b7d61))
+* add smooth scrolling and auto-focus ([9032ef2](https://github.com/letanure/almedia-test/commit/9032ef249154e08cf30c9de54f46d54204520c46))
+* add task card component ([16a145b](https://github.com/letanure/almedia-test/commit/16a145b07435c35cb5d0921ac1cfeb484d3f1fbc))
+* add task deletion ([50bf6bf](https://github.com/letanure/almedia-test/commit/50bf6bf713aa5fea189183242b6f8aeee6a444bc))
+* add task editing ([6c58417](https://github.com/letanure/almedia-test/commit/6c5841756f363ac5de2abc40cbf892477b877b71))
+* add task store with schemas ([8fe2031](https://github.com/letanure/almedia-test/commit/8fe20318b3ac8763357eafbffff82aca59e7ecc6))
+* add xxl modal size ([5db6c15](https://github.com/letanure/almedia-test/commit/5db6c157b0b82ef3945db8cca72322cedb881774))
+* implement comment persistence ([2dfd4b3](https://github.com/letanure/almedia-test/commit/2dfd4b3ee67052fe7374e6dc8a2634915cc4fa61))
+* implement drag and drop ([e0c7ede](https://github.com/letanure/almedia-test/commit/e0c7edeb58086aca417f2309e8df2e2109af96f5))
+* implement keyboard navigation ([a545e8e](https://github.com/letanure/almedia-test/commit/a545e8ec4cd7edb413a74563741a9d9a7322abc2))
+* implement task creation form ([db9a340](https://github.com/letanure/almedia-test/commit/db9a3408c19743388cb536911a09b7281f43250a))
+* implement task modal ([35428c0](https://github.com/letanure/almedia-test/commit/35428c06652e9243d1601cb1ebf5708fc043bde8))
+* improve drag UX ([cd2f77a](https://github.com/letanure/almedia-test/commit/cd2f77a7d8429edc29ba9658f52ce7ce563fadf7))
+* improve drag visual feedback ([654047e](https://github.com/letanure/almedia-test/commit/654047e5d7c2a6b505544d5b1fc0ab304aff52f6))
+* improve help modal layout ([3e9cf6e](https://github.com/letanure/almedia-test/commit/3e9cf6eb66059c4a30557cadcd4efb4a82e87d53))
+* integrate keyboard navigation ([23954b0](https://github.com/letanure/almedia-test/commit/23954b0a0367392a6122bbc9c3d5d0f18a403cad))
+* resize help modal to 80% ([fd0e613](https://github.com/letanure/almedia-test/commit/fd0e6134564c16d9bde2b3ed4b58b8f490d1a4a2))
+* update keyboard shortcuts ([0c3b30a](https://github.com/letanure/almedia-test/commit/0c3b30a5cbb6b045d9c281e815f56f21d4ce50df))
+* update shortcuts modal ([ccf85d4](https://github.com/letanure/almedia-test/commit/ccf85d47b6fa33e70b794174022e3b457343ceea))
+* update task card display ([e88fd70](https://github.com/letanure/almedia-test/commit/e88fd700ad487373c5287e7b45f38d8da6ad5358))
+
 ## [1.0.1](https://github.com/letanure/almedia-test/compare/v1.0.0...v1.0.1) (2025-08-08)
 
 
