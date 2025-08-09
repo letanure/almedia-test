@@ -21,47 +21,15 @@ export const TaskList = observer(({ columnId }: TaskListProps) => {
   const taskIds = boardStore.getTaskIdsByColumn(columnId)
   const tasks = taskStore.getTasksByIds(taskIds)
 
-  const handleTaskClick = (taskId: string) => {
-    // TODO: Open task detail modal
-    console.log("Task clicked:", taskId)
-  }
-
   const handleAddTask = (data: TaskFormData) => {
-    const newTask = taskStore.createTask({ ...data, comments: [] })
-    boardStore.addTaskToColumn(newTask.id, columnId)
-    modal.close("add-task")
-  }
-
-  const handleEditTask = (taskId: string) => {
-    const task = taskStore.getTaskById(taskId)
-    if (!task) return
-
-    modal.openForm(
-      "edit-task",
-      <TaskForm
-        onSubmit={(data) => {
-          taskStore.updateTask(taskId, data)
-          modal.close("edit-task")
-        }}
-        onCancel={() => modal.close("edit-task")}
-        initialData={{ title: task.title, description: task.description }}
-      />,
-      {
-        title: t("kanban.task.editTask"),
-        size: "md",
-      },
-    )
-  }
-
-  const handleDeleteTask = async (taskId: string) => {
-    const confirmed = await modal.confirmDelete({
-      message: t("kanban.task.confirmDeleteMessage"),
+    const newTaskId = taskStore.createTask({
+      ...data,
+      comments: [],
+      importance: data.importance || "low",
+      urgency: data.urgency || "low",
     })
-
-    if (confirmed) {
-      taskStore.deleteTask(taskId)
-      boardStore.deleteTask(taskId)
-    }
+    boardStore.addTaskToColumn(newTaskId, columnId)
+    modal.close("add-task")
   }
 
   const handleStartAddTask = () => {
@@ -84,10 +52,9 @@ export const TaskList = observer(({ columnId }: TaskListProps) => {
       {tasks.map((task) => (
         <TaskCard
           key={task.id}
-          task={task}
-          onClick={handleTaskClick}
-          onEdit={handleEditTask}
-          onDelete={handleDeleteTask}
+          taskId={task.id}
+          columnId={columnId}
+          title={task.title}
         />
       ))}
 

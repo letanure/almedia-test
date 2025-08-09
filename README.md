@@ -179,3 +179,5 @@ ls src/components/ui/
 **Happy coding!**
 
 Questions? Check the [Contributing Guide](CONTRIBUTING.md) or open an issue.
+
+![visitors](https://visitor-badge.laobi.icu/badge?page_id=letanure.almedia-test)

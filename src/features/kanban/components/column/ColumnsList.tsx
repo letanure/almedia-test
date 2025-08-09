@@ -24,7 +24,7 @@ export const ColumnsList = observer(
     shouldScroll,
     isAddingColumn,
     onAddColumn,
-    onCancelAdd,
+    onCancelAdd: _onCancelAdd,
   }: ColumnsListProps) => {
     const { columnStore } = useStore()
 
@@ -59,7 +59,7 @@ export const ColumnsList = observer(
 
           {isAddingColumn && (
             <Animated effect="fade" duration="fast" className="flex-shrink-0">
-              <ColumnForm onAdd={onAddColumn} onCancel={onCancelAdd} />
+              <ColumnForm onSubmit={onAddColumn} />
             </Animated>
           )}
         </Flex>

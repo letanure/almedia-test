@@ -1,7 +1,7 @@
 import { useSortable } from "@dnd-kit/sortable"
 import { CSS } from "@dnd-kit/utilities"
 import type { Column as ColumnType } from "../schemas"
-import { Column } from "./Column"
+import { Column } from "./column/Column"
 
 interface SortableColumnProps {
   column: ColumnType
@@ -11,17 +11,11 @@ interface SortableColumnProps {
 
 export const SortableColumn = ({
   column,
-  onUpdateColumn,
-  onDeleteColumn,
+  onUpdateColumn: _onUpdateColumn,
+  onDeleteColumn: _onDeleteColumn,
 }: SortableColumnProps) => {
-  const {
-    attributes,
-    listeners,
-    setNodeRef,
-    transform,
-    transition,
-    isDragging,
-  } = useSortable({ id: column.id })
+  const { attributes, setNodeRef, transform, transition, isDragging } =
+    useSortable({ id: column.id })
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -58,13 +52,11 @@ export const SortableColumn = ({
       className="flex-shrink-0"
       {...attributes}
     >
-      <Column
-        column={column}
-        onUpdateColumn={onUpdateColumn}
-        onDeleteColumn={onDeleteColumn}
-        dragHandleProps={listeners}
-        isDragging={isDragging}
-      />
+      <Column columnId={column.id} title={column.name}>
+        <div className="min-h-32">
+          {/* Column content will be handled by Column component */}
+        </div>
+      </Column>
     </div>
   )
 }

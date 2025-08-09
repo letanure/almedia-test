@@ -1,7 +1,6 @@
 import { DragOverlay } from "@dnd-kit/core"
-import { useStore } from "@/hooks/useStores"
 import type { Column as ColumnType } from "../schemas"
-import { Column } from "./Column"
+import { Column } from "./column/Column"
 
 interface DraggedColumnOverlayProps {
   draggedColumn: ColumnType | null | undefined
@@ -10,19 +9,16 @@ interface DraggedColumnOverlayProps {
 export const DraggedColumnOverlay = ({
   draggedColumn,
 }: DraggedColumnOverlayProps) => {
-  const { columnStore } = useStore()
-
   return (
     <DragOverlay style={{ zIndex: 9999 }}>
       {draggedColumn ? (
         <div className="rotate-3 shadow-xl transform-gpu">
-          <Column
-            column={draggedColumn}
-            onUpdateColumn={(id, name) =>
-              columnStore.updateColumn(id, { name })
-            }
-            onDeleteColumn={(id) => columnStore.deleteColumn(id)}
-          />
+          <Column columnId={draggedColumn.id} title={draggedColumn.name}>
+            <div className="opacity-50">
+              <div className="h-16 bg-muted-foreground/10 rounded mb-2"></div>
+              <div className="h-12 bg-muted-foreground/10 rounded"></div>
+            </div>
+          </Column>
         </div>
       ) : null}
     </DragOverlay>

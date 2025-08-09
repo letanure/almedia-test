@@ -4,12 +4,6 @@ import type { FormFieldConfig } from "@/components/custom-ui/FormBuilder/types"
 import { Button } from "@/components/ui/button"
 import { type TaskFormData, TaskFormSchema } from "../../schemas"
 
-// Helper function to format Date for HTML date input (YYYY-MM-DD)
-const formatDateForInput = (date: Date | undefined): string | undefined => {
-  if (!date) return undefined
-  return date.toISOString().split("T")[0]
-}
-
 interface TaskFormProps {
   onSubmit: (data: TaskFormData) => void
   onCancel?: () => void
@@ -86,7 +80,7 @@ export const TaskForm = ({
         defaultValues={{
           title: initialData?.title || "",
           description: initialData?.description || "",
-          dueDate: formatDateForInput(initialData?.dueDate) || "",
+          dueDate: initialData?.dueDate,
           importance: initialData?.importance || "low",
           urgency: initialData?.urgency || "low",
         }}
